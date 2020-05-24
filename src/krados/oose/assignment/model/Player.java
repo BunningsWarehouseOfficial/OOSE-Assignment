@@ -6,7 +6,7 @@ public class Player extends Entity {
     private int maxHealth;
     private double health;
     private String name;
-    private LinkedList<Item> inventory;
+    private LinkedList<ShopItem> inventory;
     private Weapon weapon;
     private Armour armour;
     private int gold;
@@ -29,7 +29,7 @@ public class Player extends Entity {
     }
 
     @Override
-    public int defend(int inDamage) {
+    public double defend(double inDamage) {
 
         return 0;
     }

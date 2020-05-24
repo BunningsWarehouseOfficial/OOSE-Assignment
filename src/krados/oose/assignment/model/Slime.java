@@ -15,10 +15,10 @@ public class Slime extends Enemy {
     }
 
     @Override
-    public int ability(int damage) {
-        int outDamage = damage;
+    public double ability(double damage) {
+        double outDamage = damage;
         if (Math.random() < 0.2) {
-            outDamage = 0;
+            outDamage = 0.0;
             //TODO signal view ability was used
         }
         return outDamage;

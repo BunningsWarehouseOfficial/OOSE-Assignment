@@ -16,11 +16,11 @@ public class Ogre extends Enemy {
     }
 
     @Override
-    public int ability(int damage) {
-        int outDamage = damage;
+    public double ability(double damage) {
+        double outDamage = damage;
         if (Math.random() < 0.2) {
             Random rand = new Random();
-            outDamage += rand.nextInt(maxDamage - minDamage + 1) + minDamage;
+            outDamage += (double)rand.nextInt(maxDamage - minDamage + 1) + minDamage;
             //TODO signal view ability was used
         }
         return outDamage;

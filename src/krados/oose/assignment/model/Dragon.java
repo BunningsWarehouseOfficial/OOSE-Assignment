@@ -14,11 +14,11 @@ public class Dragon extends Enemy {
     }
 
     @Override
-    public int ability(int damage) {
-        int outDamage = damage;
+    public double ability(double damage) {
+        double outDamage = damage;
         double prob = Math.random();
         if (prob < 0.25) {
-            outDamage *= 2;
+            outDamage *= 2.0;
             //TODO signal view ability was used
         }
         else if (prob < 0.1) {

@@ -19,18 +19,20 @@ public abstract class Enemy extends Entity {
         this.reward = reward;
     }
 
-    abstract public int ability(int damage);
+    abstract public double ability(double damage);
 
+    @Override
     public double attack() { //TODO does this even work being in abstract class? Subclass fields don't do anything
         Random rand = new Random();
-        int damage = rand.nextInt(maxDamage - minDamage + 1) + minDamage;
+        double damage = (double)rand.nextInt(maxDamage - minDamage + 1) + minDamage;
         damage += ability(damage);
         return damage;
     }
 
-    public int defend(int inDamage) { //TODO does this even work being in abstract? Subclass fields don't do anything
+    @Override
+    public double defend(double inDamage) {
         Random rand = new Random();
-        int defence = rand.nextInt(maxDefence - minDefence + 1) + minDefence;
-        return Math.max(0, inDamage - defence); //TODO implement health reduction here or in controller?
+        double defence = (double)rand.nextInt(maxDefence - minDefence + 1) + minDefence;
+        return Math.max(0.0, inDamage - defence); //TODO implement health reduction here or in controller?
     }
 }

@@ -14,10 +14,10 @@ public class Goblin extends Enemy {
     }
 
     @Override
-    public int ability(int damage) {
-        int outDamage = damage;
+    public double ability(double damage) {
+        double outDamage = damage;
         if (Math.random() < 0.5) {
-            outDamage += 3;
+            outDamage += 3.0;
             //TODO signal view ability was used
         }
         return outDamage;

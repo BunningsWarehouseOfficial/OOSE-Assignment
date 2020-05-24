@@ -10,5 +10,5 @@ public abstract class Entity {
     }
 
     abstract public double attack();
-    abstract public int defend(int inDamage);
+    abstract public double defend(double inDamage);
 }
