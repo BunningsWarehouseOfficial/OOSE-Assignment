@@ -3,6 +3,7 @@ package krados.oose.assignment.model;
 import java.util.Random;
 
 public class Ogre extends Enemy {
+    public static double INITIAL_PROB = 0.2;
     private double maxHealth;
     private double health;
     private int minDamage;

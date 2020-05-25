@@ -4,6 +4,7 @@ public abstract class Entity {
     private int maxHealth;
     private double health;
 
+    //CONSTRUCTOR
     public Entity(int maxHealth) {
         this.maxHealth = maxHealth;
         this.health = maxHealth;

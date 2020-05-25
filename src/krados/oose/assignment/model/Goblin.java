@@ -1,6 +1,7 @@
 package krados.oose.assignment.model;
 
 public class Goblin extends Enemy {
+    public static double INITIAL_PROB = 0.3;
     private double maxHealth;
     private double health;
     private int minDamage;

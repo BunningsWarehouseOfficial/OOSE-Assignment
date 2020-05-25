@@ -7,6 +7,15 @@ public class Damage2 extends Enchantment {
     }
 
     @Override
+    public double getMinDamage() {
+        return next.getMinDamage() + 2.0;
+    }
+    @Override
+    public double getMaxDamage() {
+        return next.getMaxDamage() + 2.0;
+    }
+
+    @Override
     public double attack() {
         return next.attack() + 2.0;
     }

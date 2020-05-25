@@ -14,6 +14,15 @@ public abstract class Enchantment extends ShopItem implements Enchantable {
     }
 
     @Override
+    public double getMinDamage() {
+        return next.getMinDamage();
+    }
+    @Override
+    public double getMaxDamage() {
+        return next.getMaxDamage();
+    }
+
+    @Override
     public double attack() {
         return next.attack();
     }

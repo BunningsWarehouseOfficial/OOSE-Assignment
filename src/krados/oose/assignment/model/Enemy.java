@@ -9,14 +9,43 @@ public abstract class Enemy extends Entity {
     private int maxDefence;
     private int reward;
 
-    public Enemy(int maxHealth, int minDamage, int maxDamage, int minDefence, int maxDefence,
-                 int reward) {
+    //CONSTRUCTOR
+    public Enemy(int maxHealth, int minDamage, int maxDamage, int minDefence, int maxDefence, int reward) {
         super(maxHealth);
         this.minDamage = minDamage;
         this.maxDamage = maxDamage;
         this.minDefence = minDefence;
         this.maxDefence = maxDefence;
         this.reward = reward;
+    }
+
+    //FACTORY
+    public static Enemy makeEnemy(int numBattles) {
+        double pSlime, pGoblin, pOgre, pDragon, prob, modifier, cumulative;
+        Enemy enemy;
+        prob = Math.random();
+
+        modifier = 0.05;
+        cumulative = 0.0;
+        pSlime = Math.max(0.05, Slime.INITIAL_PROB - (numBattles * modifier));
+        pGoblin = Math.max(0.05, Goblin.INITIAL_PROB - (numBattles * modifier));
+        pOgre = Math.max(0.05, Ogre.INITIAL_PROB - (numBattles * modifier));
+
+        if (prob < pSlime) {
+            enemy = new Slime();
+            cumulative += pSlime;
+        }
+        else if (prob < cumulative + pGoblin) {
+            enemy = new Goblin();
+            cumulative += pGoblin;
+        }
+        else if (prob < cumulative + pOgre) {
+            enemy = new Ogre();
+        }
+        else {
+            enemy = new Dragon();
+        }
+        return enemy;
     }
 
     abstract public double ability(double damage);
@@ -28,7 +57,6 @@ public abstract class Enemy extends Entity {
         damage += ability(damage);
         return damage;
     }
-
     @Override
     public double defend(double inDamage) {
         Random rand = new Random();

@@ -10,13 +10,26 @@ public class Weapon extends ShopItem implements Enchantable {
     private int minDamage;
     private int maxDamage;
 
-    //TODO input validation: here or in ShopController?
+    //CONSTRUCTOR //TODO input validation: here or in ShopController?
     public Weapon(String name, int cost, String type, String typeDamage, int minDamage, int maxDamage) {
         super(name, cost);
         this.type = type;
         this.typeDamage = typeDamage;
         this.minDamage = minDamage;
         this.maxDamage = maxDamage;
+    }
+
+    public String getType() {
+        return type;
+    }
+    public String getTypeDamage() {
+        return typeDamage;
+    }
+    public double getMinDamage() {
+        return minDamage;
+    }
+    public double getMaxDamage() {
+        return maxDamage;
     }
 
     @Override

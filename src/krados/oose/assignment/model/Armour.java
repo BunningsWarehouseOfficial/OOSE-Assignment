@@ -16,6 +16,16 @@ public class Armour extends ShopItem {
         this.maxDefence = maxDefence;
     }
 
+    public String getMaterial() {
+        return material;
+    }
+    public int getMinDefence() {
+        return minDefence;
+    }
+    public int getMaxDefence() {
+        return maxDefence;
+    }
+
     public int defend(int inDamage) { //TODO does this even work being in abstract? Subclass fields don't do anything
         Random rand = new Random();
         int defence = rand.nextInt(maxDefence - minDefence + 1) + minDefence;

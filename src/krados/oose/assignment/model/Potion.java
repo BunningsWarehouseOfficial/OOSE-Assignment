@@ -16,6 +16,16 @@ public class Potion extends ShopItem {
         this.maxEffect = maxEffect;
     }
 
+    public boolean isHealing() {
+        return healing;
+    }
+    public int getMinEffect() {
+        return minEffect;
+    }
+    public int getMaxEffect() {
+        return maxEffect;
+    }
+
     public int use() {
         Random rand = new Random();
         return rand.nextInt(maxEffect - minEffect + 1) + minEffect;

@@ -8,4 +8,11 @@ public abstract class ShopItem {
         this.name = name;
         this.cost = cost;
     }
-}
+
+    public String getName() {
+        return name;
+    }
+    public int getCost() {
+        return cost;
+    }
+} //TODO some way to view details of item, such as the enchantments it has (low priority) (list of strings?)
