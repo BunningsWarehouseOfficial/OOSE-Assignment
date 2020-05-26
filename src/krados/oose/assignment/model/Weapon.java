@@ -9,6 +9,7 @@ public class Weapon extends ShopItem implements Enchantable {
     private String typeDamage;
     private int minDamage;
     private int maxDamage;
+    private int numEnchantments;
 
     //CONSTRUCTOR //TODO input validation: here or in ShopController?
     public Weapon(String name, int cost, String type, String typeDamage, int minDamage, int maxDamage) {
@@ -19,6 +20,7 @@ public class Weapon extends ShopItem implements Enchantable {
         this.maxDamage = maxDamage;
     }
 
+    //ACCESSORS
     public String getType() {
         return type;
     }
@@ -30,6 +32,16 @@ public class Weapon extends ShopItem implements Enchantable {
     }
     public double getMaxDamage() {
         return maxDamage;
+    }
+    public int getNumEnchantments() {
+        return numEnchantments;
+    }
+
+    //MUTATORS
+    public void enchant() {
+
+
+        numEnchantments++;
     }
 
     @Override

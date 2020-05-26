@@ -10,6 +10,14 @@ public abstract class Entity {
         this.health = maxHealth;
     }
 
+    //ACCESSORS
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+    public double getHealth() {
+        return health;
+    }
+
     abstract public double attack();
     abstract public double defend(double inDamage);
 }

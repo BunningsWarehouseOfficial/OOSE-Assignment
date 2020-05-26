@@ -26,20 +26,17 @@ public abstract class Enemy extends Entity {
         prob = Math.random();
 
         modifier = 0.05;
-        cumulative = 0.0;
         pSlime = Math.max(0.05, Slime.INITIAL_PROB - (numBattles * modifier));
         pGoblin = Math.max(0.05, Goblin.INITIAL_PROB - (numBattles * modifier));
         pOgre = Math.max(0.05, Ogre.INITIAL_PROB - (numBattles * modifier));
 
         if (prob < pSlime) {
             enemy = new Slime();
-            cumulative += pSlime;
         }
-        else if (prob < cumulative + pGoblin) {
+        else if (prob < pSlime + pGoblin) {
             enemy = new Goblin();
-            cumulative += pGoblin;
         }
-        else if (prob < cumulative + pOgre) {
+        else if (prob < pSlime + pGoblin + pOgre) {
             enemy = new Ogre();
         }
         else {

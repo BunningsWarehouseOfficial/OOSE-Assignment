@@ -8,11 +8,13 @@ public abstract class Enchantment extends ShopItem implements Enchantable {
     private int cost;
     protected Enchantable next;
 
+    //CONSTRUCTOR
     public Enchantment(String name, int cost) {
         super(name, cost);
         next = null;
     }
 
+    //ACCESSORS
     @Override
     public double getMinDamage() {
         return next.getMinDamage();
