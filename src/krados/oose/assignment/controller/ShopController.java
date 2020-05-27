@@ -1,6 +1,8 @@
 package krados.oose.assignment.controller;
 
+import krados.oose.assignment.controller.exceptions.FullInventoryException;
 import krados.oose.assignment.controller.exceptions.InputErrorException;
+import krados.oose.assignment.controller.exceptions.ItemException;
 import krados.oose.assignment.controller.exceptions.ItemNotFoundException;
 import krados.oose.assignment.model.Enemy;
 import krados.oose.assignment.model.Player;
@@ -18,6 +20,11 @@ public class ShopController {
         shopInventory = new LinkedList<ShopItem>();
     }
 
+    //MUTATORS //TODO shop inventory that's separate to controller?
+    public void addItem(ShopItem item) {
+        shopInventory.addLast(item);
+    }
+
     public Player openShop(Player p) {
         int cmd = -1;
         do {
@@ -28,13 +35,15 @@ public class ShopController {
 
                 switch (cmd) {
                     case 1: //Sell Item
-                        ShopView.sellItemPrompt();
+                        View.inputNumberPrompt("item", "sell");
                         cmd = View.selectOption();
                         sellItem(p, cmd);
                         break;
 
                     case 2: //Buy Item
-                        System.out.println("Buy Item");
+                        View.inputNumberPrompt("item", "buy");
+                        cmd = View.selectOption();
+                        buyItem(p, cmd);
                         break;
 
                     case 3: //Enchant Weapon
@@ -51,30 +60,46 @@ public class ShopController {
             }
             catch (InputErrorException e) {
                 View.inputError(e);
+                cmd = -1; //Reset the cmd value to prevent accidental early exit from submenu
             }
-            catch (ItemNotFoundException e) {
+            catch (ItemException e) {
                 View.itemError(e);
-                cmd = -1; //Reset the cmd value to prevent accidental early exit of program from submenu
             }
         } while (cmd != 0);
         return p;
     }
 
     //PRIVATE
-    private static void sellItem(Player p, int cmd) throws ItemNotFoundException, InputErrorException {
-        int index = cmd - 3;
-        if (cmd < 1) {
-            throw new ItemNotFoundException("Item " + cmd + " could not be found in player inventory");
-        }
-        else if (cmd == 1 || cmd == 2) {
-            throw new InputErrorException("Equipped items can not be sold to the shop");
-        }
-        else if (cmd > Player.INVENTORY_SIZE) {
-            throw new InputErrorException("Player only has an inventory of size " + Player.INVENTORY_SIZE);
-        }
-        else {
-            int value = p.sellItem(cmd - 3); //cmd is based on UI inventory list, where sellable items start at 3
+    private void sellItem(Player p, int cmd) throws ItemException, InputErrorException {
+        try { //BUG After selling 4, could sell the now 3 by typing 4 <---------------------------- !!!!!!!!!!!!!!
+              // Also still haven't tested buying an item btw lol
+            if (cmd < 1) {
+                throw new InputErrorException("Input must be > 0");
+            }
+            else if (cmd == 1 || cmd == 2) {
+                throw new InputErrorException("Equipped items can not be sold to the shop");
+            }
+            else if (cmd > Player.INVENTORY_SIZE) {
+                throw new InputErrorException("Player only has an inventory of size " + Player.INVENTORY_SIZE);
+            }
+
+            //cmd is based on UI inventory list, but an index is required and sellable items start at 3
+            int value = p.sellItem(cmd - 3);
             View.balanceChange(value);
+        }
+        catch (ItemNotFoundException e) {
+            throw new ItemException("Couldn't sell item " + cmd + " (" + e.getMessage() + ")", e);
+        }
+    }
+
+    private void buyItem(Player p, int cmd) throws ItemException {
+        ShopItem bought = shopInventory.get(cmd);
+        try {
+            bought.givePlayer(p);
+            View.balanceChange(-bought.getCost());
+        }
+        catch (FullInventoryException e) {
+            throw new ItemException("There was a problem purchasing the item (" + e.getMessage() + ")", e);
         }
     }
 

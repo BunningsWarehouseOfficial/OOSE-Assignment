@@ -7,8 +7,6 @@ import java.util.LinkedList;
 
 public class Player extends Entity {
     public static final int INVENTORY_SIZE = 15;
-    //private int maxHealth;
-    //private double health;
     private String name;
     private LinkedList<Weapon> invWeapons;
     private LinkedList<Armour> invArmours;
@@ -46,14 +44,12 @@ public class Player extends Entity {
     public String getName() {
         return name;
     }
-    public LinkedList<Weapon> getInvWeapons() {
-        return invWeapons;
-    }
-    public LinkedList<Armour> getInvArmours() {
-        return invArmours;
-    }
-    public LinkedList<Potion> getInvPotions() {
-        return invPotions;
+    public LinkedList<ShopItem> getInventory() {
+        LinkedList<ShopItem> inventory = new LinkedList<>();
+        inventory.addAll(invWeapons);
+        inventory.addAll(invArmours);
+        inventory.addAll(invPotions);
+        return inventory;
     }
     public Weapon getEquippedWeapon() {
         return weapon;
@@ -61,11 +57,23 @@ public class Player extends Entity {
     public Armour getEquippedArmour() {
         return armour;
     }
-    public Weapon getWeapon(int index) {
-        return invWeapons.get(index);
+    public Weapon getWeapon(int index) throws ItemNotFoundException {
+        try {
+            Weapon w = invWeapons.get(index);
+            return w;
+        }
+        catch (IndexOutOfBoundsException e) {
+            throw new ItemNotFoundException("Item could not be found be found in player inventory");
+        }
     }
-    public Armour getArmour(int index) {
-        return invArmours.get(index);
+    public Armour getArmour(int index) throws ItemNotFoundException {
+        try {
+            Armour a = invArmours.get(index);
+            return a;
+        }
+        catch (IndexOutOfBoundsException e) {
+            throw new ItemNotFoundException("Item could not be found be found in player inventory");
+        }
     }
     public int getGold() {
         return gold;
@@ -73,11 +81,18 @@ public class Player extends Entity {
     public int getNumItems() {
         return numItems;
     }
+    public int getNumWeapons() {
+        return invWeapons.size();
+    }
+    public int getNumArmours() {
+        return invArmours.size();
+    }
 
     //MUTATORS
     public void setName(String name) {
         this.name = name;
     }
+
     public void addWeapon(Weapon weapon) throws FullInventoryException {
         if (numItems < 15) {
             invWeapons.addLast(weapon);
@@ -105,6 +120,7 @@ public class Player extends Entity {
             throw new FullInventoryException("The player inventory is full");
         }
     }
+
     public void equipWeapon(Weapon weapon) throws ItemNotFoundException {
         if (invWeapons.contains(weapon)) {
             if (this.weapon != null) { //If there is a weapon currently equipped, re-add it to the inventory list
@@ -137,6 +153,7 @@ public class Player extends Entity {
             throw new ItemNotFoundException("Player does not have the specified armour");
         }
     }
+
     public int sellItem(int index) throws ItemNotFoundException {
         ShopItem item;
         int adjustedIndex = index; //Index relative to the inventory container being searched at each step
@@ -162,13 +179,14 @@ public class Player extends Entity {
                     invPotions.remove(adjustedIndex);
                 }
                 else {
-                   throw new ItemNotFoundException("Could not find an item at the specified index in player inventory");
+                   throw new ItemNotFoundException("Item could not be found be found in player inventory");
                 }
             }
         }
         return value;
     }
 
+    //OTHER
     @Override
     public double attack() {
 

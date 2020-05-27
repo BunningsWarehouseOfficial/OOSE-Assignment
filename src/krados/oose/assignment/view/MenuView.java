@@ -1,9 +1,5 @@
 package krados.oose.assignment.view;
 
-import krados.oose.assignment.controller.exceptions.InputErrorException;
-import krados.oose.assignment.model.Player;
-
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MenuView {
@@ -27,12 +23,5 @@ public class MenuView {
         System.out.print("> ");
         name = sc.nextLine();
         return name;
-    }
-
-    public static void changeWeaponPrompt() {
-        System.out.println("Input the number of the weapon you would like to equip");
-    }
-    public static void changeArmourPrompt() {
-        System.out.println("Input the number of the armour you would like to equip");
     }
 }

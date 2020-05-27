@@ -2,10 +2,7 @@ package krados.oose.assignment.controller;
 
 import krados.oose.assignment.controller.exceptions.FullInventoryException;
 import krados.oose.assignment.controller.exceptions.ItemNotFoundException;
-import krados.oose.assignment.model.Armour;
-import krados.oose.assignment.model.Enemy;
-import krados.oose.assignment.model.Player;
-import krados.oose.assignment.model.Weapon;
+import krados.oose.assignment.model.*;
 
 public class GameEngine {
     public static void main(String[] args) {
@@ -17,7 +14,7 @@ public class GameEngine {
         Player player = new Player(); //Default player
         try {
             player.equipWeapon(new Weapon("Excalibur", 20, "Sword", "slashing", 6, 12));
-            player.equipArmour(new Armour("Adamantium Chestplate", 30, "Adamantium", 10, 14));
+            player.equipArmour(new Armour("Astra Leggings", 30, "Adamantium", 10, 14));
             player.addArmour(new Armour("Titanium Chestplate", 25, "Titanium", 9, 12));
             player.addWeapon(new Weapon("Excalibur 2", 40, "Longsword", "slashing", 9, 15));
         }
@@ -29,6 +26,9 @@ public class GameEngine {
         }
         // end temp
         ShopController shop = new ShopController();
+        shop.addItem(new Weapon("Yeetblade", 15, "Blade", "stabbing", 2, 12));
+        shop.addItem(new Armour("Cactus Pants", 5, "Cactus", 0, 8));
+        shop.addItem(new Potion("Gamer Juice", 10, true, 12, 16));
 
         MenuController.menu(player, shop);
     }

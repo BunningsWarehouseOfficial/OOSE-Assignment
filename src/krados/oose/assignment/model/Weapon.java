@@ -1,10 +1,10 @@
 package krados.oose.assignment.model;
 
+import krados.oose.assignment.controller.exceptions.FullInventoryException;
+
 import java.util.Random;
 
 public class Weapon extends ShopItem implements Enchantable {
-    private String name;
-    private int cost;
     private String type;
     private String typeDamage;
     private int minDamage;
@@ -37,6 +37,14 @@ public class Weapon extends ShopItem implements Enchantable {
         return numEnchantments;
     }
 
+    @Override
+    public String toString() {
+        return getName() + " (" + minDamage + " - " + maxDamage + " " + typeDamage + " damage) [Type: " + type + "] \n";
+    }
+    public String toStringShortened() {
+        return getName() + " (" + minDamage + " - " + maxDamage + " " + typeDamage + " damage) \n";
+    }
+
     //MUTATORS
     public void enchant() {
 
@@ -44,9 +52,15 @@ public class Weapon extends ShopItem implements Enchantable {
         numEnchantments++;
     }
 
+    //OTHER
     @Override
     public double attack() { //TODO does this even work being in abstract class? Subclass fields don't do anything
         Random rand = new Random();
         return rand.nextInt(maxDamage - minDamage + 1) + minDamage;
+    }
+
+    @Override
+    public void givePlayer(Player p) throws FullInventoryException {
+        p.addWeapon(this);
     }
 }

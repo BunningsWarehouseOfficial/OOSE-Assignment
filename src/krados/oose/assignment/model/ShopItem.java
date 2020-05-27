@@ -1,5 +1,7 @@
 package krados.oose.assignment.model;
 
+import krados.oose.assignment.controller.exceptions.FullInventoryException;
+
 public abstract class ShopItem {
     private String name;
     private int cost;
@@ -15,4 +17,9 @@ public abstract class ShopItem {
     public int getCost() {
         return cost;
     }
-} //TODO some way to view details of item, such as the enchantments it has (low priority) (list of strings?)
+    public String getSellValue() {
+        return "{$} " + cost / 2 + " gold \n";
+    }
+
+    public abstract void givePlayer(Player p) throws FullInventoryException;
+}

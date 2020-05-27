@@ -28,4 +28,11 @@ public abstract class Enchantment extends ShopItem implements Enchantable {
     public double attack() {
         return next.attack();
     }
+    @Override
+    public void givePlayer(Player p) {
+      /*Given the current design and implementation of the program the method does not make sense, as enchantments are
+      * added to weapons, not */
+      //TODO write explanatory comment
+        throw new UnsupportedOperationException("Enchantment.givePlayer(Player) has no implementation");
+    }
 }

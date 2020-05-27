@@ -8,6 +8,7 @@ public class ShopView {
     public static void displayOptions(LinkedList<ShopItem> shopInventory) {
         System.out.println(
             "========== SHOP ========== \n" +
+            listShopStock(shopInventory) + " \n" +
             "[1] Sell Item \n" +
             "[2] Buy Item \n" +
             "[3] Enchant Weapon \n" +
@@ -26,51 +27,38 @@ public class ShopView {
         );
     }
 
-    public static void sellItemPrompt() {
-        System.out.println("Input the number of the item you would like to sell.");
+    //PRIVATE METHODS
+    private static String listShopStock(LinkedList<ShopItem> items) { //Listing items that the shop has for sale
+        String list = "";
+        int jj = 1;
+
+        for (ShopItem i : items) {
+            list += jj + ". " + i.toString();
+            list += "   {$} " + i.getCost() + " gold \n";
+            jj++;
+        }
+        return list;
     }
 
-    //PRIVATE METHODS
-    private static String listShoppingInventory(Player p) { //Shop specific listing of inventory with extra detail
+    private static String listShoppingInventory(Player p) { //Listing of player inventory for the shop with extra detail
         String list = "";
         Weapon eqW = p.getEquippedWeapon();
         Armour eqA = p.getEquippedArmour();
-        int ii = 1; //TODO this doesn't list out type/material, need to list at least one other place (item details?)
+        LinkedList<ShopItem> inventory = p.getInventory();
+        int jj = 1;
 
         //Showing two equipped items first with emphasis (optional sell statements for equipped items commented out)
-        list += "@ " + ii + ". " + eqW.getName() + " (" + eqW.getMinDamage() + " - " + eqW.getMaxDamage() + " " +
-                eqW.getTypeDamage() + " damage) [Type: " + eqW.getType() + "] \n";
-        //list += "     {$} equipped, can't sell \n";
-        ii++;
+        list += "@ " + jj + ". " + eqW;
+        jj++;
 
-        list += "@ " + ii + ". " + eqA.getName() + " (" + eqA.getMinDefence() + " - " + eqA.getMaxDefence() +
-                " defence) [Material: " + eqA.getMaterial() + "] \n";
-        //list += "     {$} equipped, can't sell \n";
-        ii++;
+        list += "@ " + jj + ". " + eqA;
+        jj++;
 
         //Showing the rest of the inventory
-        for (Weapon w : p.getInvWeapons()) {
-            list += "  " + ii + ". " + w.getName() + " (" + w.getMinDamage() + " - " + w.getMaxDamage() + " " +
-                    w.getTypeDamage() + " damage) [Type: " + w.getType() + "] \n";
-            list += "     {$} " + w.getCost() / 2 + " gold \n";
-            ii++;
-        }
-        for (Armour a : p.getInvArmours()) {
-            list += "  " + ii + ". " + a.getName() + " (" + a.getMinDefence() + " - " + a.getMaxDefence() + " " +
-                    " defence) [Material: " + a.getMaterial() + "] \n";
-            list += "     {$} " + a.getCost() / 2 + " gold \n";
-            ii++;
-        }
-        for (Potion pot : p.getInvPotions()) {
-            list += "  " + ii + ". " + pot.getName() + " (" + pot.getMinEffect() + " - " + pot.getMaxEffect();
-            if (pot.isHealing()) {
-                list += " healing) \n";
-            }
-            else {
-                list += " damage) \n";
-            }
-            list += "     {$} " + pot.getCost() / 2 + " gold \n";
-            ii++;
+        for (ShopItem i : inventory) {
+            list += "  " + jj + ". " + i.toString();
+            list += "     " + i.getSellValue();
+            jj++;
         }
         return list;
     }

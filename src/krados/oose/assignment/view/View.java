@@ -1,10 +1,12 @@
 package krados.oose.assignment.view;
 
 import krados.oose.assignment.controller.exceptions.InputErrorException;
+import krados.oose.assignment.controller.exceptions.ItemException;
 import krados.oose.assignment.controller.exceptions.ItemNotFoundException;
 import krados.oose.assignment.model.*;
 
 import java.util.InputMismatchException;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class View {
@@ -41,14 +43,18 @@ public class View {
         }
     }
 
+    public static void inputNumberPrompt(String itemType, String action) {
+        System.out.println("Input the number of the " + itemType + " you would like to " + action);
+    }
+
     public static void inputBoundsError(int lower, int upper) {
-        System.out.println("Error: Input is out of bounds, must be >= " + lower + " and <= " + upper);
+        System.out.println("Input Error: Input is out of bounds, must be >= " + lower + " and <= " + upper);
     }
     public static void inputError(InputErrorException e) {
-        System.out.println("Error: " + e.getMessage());
+        System.out.println("Input Error: " + e.getMessage());
     }
-    public static void itemError(ItemNotFoundException e) { //TODO should this and above inherit from higher exception?
-        System.out.println("Error: " + e.getMessage()); //TODO dodge above by moving to MenuView? Is it used elsewhere?
+    public static void itemError(ItemException e) {
+        System.out.println("Item Error: " + e.getMessage());
     }
 
     //PRIVATE METHODS
@@ -56,36 +62,21 @@ public class View {
         String list = "";
         Weapon eqW = p.getEquippedWeapon();
         Armour eqA = p.getEquippedArmour();
-        int ii = 1; //TODO this doesn't list out type/material, need to list at least one other place (item details?)
+        LinkedList<ShopItem> inventory = p.getInventory();
+        int jj = 1;
 
         //Showing two equipped items first with emphasis
-        list += "@ " + ii + ". " + eqW.getName() + " (" + eqW.getMinDamage() + " - " + eqW.getMaxDamage() + " " +
-                eqW.getTypeDamage() + " damage) \n";
-        ii++;
-        list += "@ " + ii + ". " + eqA.getName() + " (" + eqA.getMinDefence() + " - " + eqA.getMaxDefence() + " " +
-                " defence) \n";
-        ii++;
+        list += "@ " + jj + ". " + eqW;
+        jj++;
+
+        list += "@ " + jj + ". " + eqA;
+        jj++;
 
         //Showing the rest of the inventory
-        for (Weapon w : p.getInvWeapons()) {
-            list += "  " + ii + ". " + w.getName() + " (" + w.getMinDamage() + " - " + w.getMaxDamage() + " " +
-                    w.getTypeDamage() + " damage) \n";
-            ii++;
-        }
-        for (Armour a : p.getInvArmours()) {
-            list += "  " + ii + ". " + a.getName() + " (" + a.getMinDefence() + " - " + a.getMaxDefence() + " " +
-                    " defence) \n";
-            ii++;
-        }
-        for (Potion pot : p.getInvPotions()) {
-            list += "  " + ii + ". " + pot.getName() + " (" + pot.getMinEffect() + " - " + pot.getMaxEffect();
-            if (pot.isHealing()) {
-                list += " healing) \n";
-            }
-            else {
-                list += " damage) \n";
-            }
-            ii++;
+        for (ShopItem i : inventory) {
+            list += "  " + jj + ". " + i.toString();
+            list += "     " + i.getSellValue();
+            jj++;
         }
         return list;
     }
