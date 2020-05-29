@@ -2,18 +2,18 @@ package krados.oose.assignment.model;
 
 public class Goblin extends Enemy {
     public static double INITIAL_PROB = 0.3;
-    private double maxHealth;
-    private double health;
-    private int minDamage;
-    private int maxDamage;
-    private int minDefence;
-    private int maxDefence;
-    private int reward;
 
+    //CONSTRUCTOR
     public Goblin() {
         super(30, 3, 8, 4, 8, 20);
     }
 
+    //ACCESSORS
+    public String getSpecies() {
+        return "Goblin";
+    }
+
+    //OTHER
     @Override
     public double ability(double damage) {
         double outDamage = damage;

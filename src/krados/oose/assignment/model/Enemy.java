@@ -19,6 +19,18 @@ public abstract class Enemy extends Entity {
         this.reward = reward;
     }
 
+    //ACCESSORS
+    public int getMinDamage() {
+        return minDamage;
+    }
+    public int getMaxDamage() {
+        return maxDamage;
+    }
+    public int getReward() {
+        return reward;
+    }
+    public abstract String getSpecies();
+
     //FACTORY
     public static Enemy makeEnemy(int numBattles) {
         double pSlime, pGoblin, pOgre, pDragon, prob, modifier, cumulative;

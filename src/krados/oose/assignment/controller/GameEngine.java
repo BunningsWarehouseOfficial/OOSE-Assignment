@@ -10,6 +10,7 @@ public class GameEngine {
         //TODO consider changing various methods from public to protected/package-private LOW PRIORITY
         //TODO don't forget to test inventory/ui stuff with potions, as I didn't create any potions in initial testing
 
+        //TODO final: remove unused anythings where applicable
         //TODO final: make another git branch and remove all left over TODOs on there only for the assignment submission
 
         // temp
@@ -22,11 +23,11 @@ public class GameEngine {
             ShopItem pot = new Potion("Fire Potion", 10, false, 4, 6);
             pot.givePlayer(player);
         }
-        catch (ItemNotFoundException e) {
-            System.out.println("Error: " + e.getMessage());
+        catch (ItemNotFoundException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
-        catch (FullInventoryException e) {
-            System.out.println("Error: " + e.getMessage() + " - max inventory size is " + Player.INVENTORY_SIZE);
+        catch (FullInventoryException ex) {
+            System.out.println("Error: " + ex.getMessage() + " - max inventory size is " + Player.INVENTORY_SIZE);
         }
         // end temp
         ShopController shop = new ShopController();

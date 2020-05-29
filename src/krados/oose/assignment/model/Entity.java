@@ -18,6 +18,12 @@ public abstract class Entity {
         return health;
     }
 
+    //MUTATORS
+    public void setHealth(double health) {
+        this.health = health;
+    }
+
+    //OTHER
     abstract public double attack();
     abstract public double defend(double inDamage);
 }

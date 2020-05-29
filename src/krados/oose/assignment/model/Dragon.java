@@ -1,18 +1,17 @@
 package krados.oose.assignment.model;
 
 public class Dragon extends Enemy {
-    private double maxHealth;
-    private double health;
-    private int minDamage;
-    private int maxDamage;
-    private int minDefence;
-    private int maxDefence;
-    private int reward;
-
+    //CONSTRUCTOR
     public Dragon() {
         super(100, 15, 30, 15, 20, 100);
     }
 
+    //ACCESSORS
+    public String getSpecies() {
+        return "Dragon";
+    }
+
+    //OTHER
     @Override
     public double ability(double damage) {
         double outDamage = damage;
@@ -22,7 +21,8 @@ public class Dragon extends Enemy {
             //TODO signal view ability was used
         }
         else if (prob < 0.1) {
-            health = Math.max(maxHealth, health + 10.0);
+            double newHealth = Math.max(getMaxHealth(), getHealth() + 10.0);
+            setHealth(newHealth);
             //TODO signal view ability was used
         }
         return outDamage;

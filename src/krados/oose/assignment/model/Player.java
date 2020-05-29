@@ -61,7 +61,7 @@ public class Player extends Entity {
         try {
             return invWeapons.get(index);
         }
-        catch (IndexOutOfBoundsException e) {
+        catch (IndexOutOfBoundsException ex) {
             throw new ItemNotFoundException("Item could not be found be found in player inventory");
         }
     }
@@ -69,7 +69,7 @@ public class Player extends Entity {
         try {
             return invArmours.get(index);
         }
-        catch (IndexOutOfBoundsException e) {
+        catch (IndexOutOfBoundsException ex) {
             throw new ItemNotFoundException("Item could not be found be found in player inventory");
         }
     }

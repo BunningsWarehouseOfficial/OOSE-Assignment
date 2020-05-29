@@ -1,14 +1,10 @@
 package krados.oose.assignment.controller;
 
-import krados.oose.assignment.controller.exceptions.FullInventoryException;
-import krados.oose.assignment.controller.exceptions.InputErrorException;
-import krados.oose.assignment.controller.exceptions.ItemException;
-import krados.oose.assignment.controller.exceptions.ItemNotFoundException;
+import krados.oose.assignment.controller.exceptions.*;
 import krados.oose.assignment.model.*;
 import krados.oose.assignment.view.ShopView;
 import krados.oose.assignment.view.View;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 
 public class ShopController { //TODO final: make package-private if still an option
@@ -19,8 +15,6 @@ public class ShopController { //TODO final: make package-private if still an opt
     public ShopController() {
         shopInventory = new LinkedList<>();
 
-        //TODO this isn't a great solution, would rather something hardcoded' into the object than hardcoded into
-        // a view and a controller NOT A MAP
         //The costs of the enchantments for sale in the order they are shown in UI
         enchantmentCosts = new int[] {
             Damage2.COST,
@@ -72,12 +66,12 @@ public class ShopController { //TODO final: make package-private if still an opt
                         break;
                 }
             }
-            catch (InputErrorException e) {
-                View.inputError(e);
+            catch (InputErrorException ex) {
+                View.inputError(ex);
                 cmd = -1; //Reset the cmd value to prevent accidental early exit from submenu
             }
-            catch (ItemException e) { //bug got exception when enchanting non-equipped item (#3)
-                View.itemError(e);
+            catch (ItemException ex) { //bug got exception when enchanting non-equipped item (#3)
+                View.itemError(ex);
             }
         } while (cmd != 0); //TODO retest all the UIs after Model rework
         return p;
@@ -100,8 +94,8 @@ public class ShopController { //TODO final: make package-private if still an opt
             int value = p.sellItem(index);
             View.balanceChange(value);
         }
-        catch (ItemNotFoundException e) {
-            throw new ItemException("Couldn't sell item " + cmd + " (" + e.getMessage() + ")", e);
+        catch (ItemNotFoundException ex) {
+            throw new ItemException("Couldn't sell item " + cmd + " (" + ex.getMessage() + ")", ex);
         }
     }
 
@@ -120,11 +114,11 @@ public class ShopController { //TODO final: make package-private if still an opt
                                         " more gold is required");
             }
         }
-        catch (FullInventoryException e) {
-            throw new ItemException("There was a problem purchasing the item (" + e.getMessage() + ")", e);
+        catch (FullInventoryException ex) {
+            throw new ItemException("There was a problem purchasing the item (" + ex.getMessage() + ")", ex);
         }
-        catch (IndexOutOfBoundsException e) {
-            throw new InputErrorException("Input must be > 0 and <= " + shopInventory.size(), e);
+        catch (IndexOutOfBoundsException ex) {
+            throw new InputErrorException("Input must be > 0 and <= " + shopInventory.size(), ex);
         }
     }
 
@@ -157,12 +151,15 @@ public class ShopController { //TODO final: make package-private if still an opt
                     case 1: //First listed enchantment
                         target = new Damage2(target);
                         break;
+
                     case 2: //Second listed enchantment
                         target = new Damage5(target);
                         break;
+
                     case 3: //Third listed enchantment
                         target = new FireDamage(target);
                         break;
+
                     case 4: //Fourth listed enchantment
                         target = new PowerUp(target);
                         break;
@@ -182,8 +179,8 @@ public class ShopController { //TODO final: make package-private if still an opt
                                         " more gold is required");
             }
         }
-        catch (IndexOutOfBoundsException e) {
-            throw new InputErrorException("First input must be > 0 and <= " + shopInventory.size(), e);
+        catch (IndexOutOfBoundsException ex) {
+            throw new InputErrorException("First input must be > 0 and <= " + shopInventory.size(), ex);
         }
     }
 

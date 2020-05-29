@@ -27,8 +27,8 @@ public class View {
         try {
             cmd = Integer.parseInt(sc.nextLine());
         }
-        catch (IllegalArgumentException | InputMismatchException e) {
-            throw new InputErrorException("Input must be an integer", e);
+        catch (IllegalArgumentException | InputMismatchException ex) {
+            throw new InputErrorException("Input must be an integer", ex);
         }
         return cmd;
     }

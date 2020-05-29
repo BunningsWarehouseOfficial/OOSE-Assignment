@@ -2,19 +2,19 @@ package krados.oose.assignment.model;
 
 public class Slime extends Enemy {
     public static double INITIAL_PROB = 0.5;
-    private double maxHealth;
-    private double health;
-    private int minDamage;
-    private int maxDamage;
-    private int minDefence;
-    private int maxDefence;
-    private int reward;
 
     //TODO perhaps modify these constructors to not be hardcoded and take in values in a factory?
+    //CONSTRUCTOR
     public Slime() {
         super(10, 3, 5, 0, 2, 10);
     }
 
+    //ACCESSORS
+    public String getSpecies() {
+        return "Slime";
+    }
+
+    //OTHER
     @Override
     public double ability(double damage) {
         double outDamage = damage;

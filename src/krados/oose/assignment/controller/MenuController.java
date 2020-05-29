@@ -7,20 +7,9 @@ import krados.oose.assignment.model.*;
 import krados.oose.assignment.view.MenuView;
 import krados.oose.assignment.view.View;
 
-import java.util.LinkedList;
-
-//TODO remove inventory planning/template
-//@ 1. Excalibur (6.0 - 12.0 slashing damage)
-//     {$} 20 gold   |   [Type: Sword]
-
-//@ 2. Leather Armour (5 - 15 defence)
-//     {$} 10 gold   |   [Material: Leather]
-
-//  3. Explosive Potion (20.0 - 20.0 damage)
-//     {$} 20 gold
-
 public class MenuController {
     public static void menu(Player p, ShopController shop) {
+        int numBattles = 0;
         int cmd = -1;
         do {
             try {
@@ -50,7 +39,8 @@ public class MenuController {
                         break;
 
                     case 5: //Start Battle
-
+                        Enemy e = Enemy.makeEnemy(numBattles);
+                        BattleController.startBattle(p, e);
                         break;
 
                     default:
@@ -60,12 +50,12 @@ public class MenuController {
                         break;
                 }
             }
-            catch (InputErrorException e) {
-                View.inputError(e);
+            catch (InputErrorException ex) {
+                View.inputError(ex);
                 cmd = -1; //Reset the cmd value to prevent accidental early exit of program
             }
-            catch (ItemException e) { //TODO make ItemException
-                View.itemError(e);
+            catch (ItemException ex) {
+                View.itemError(ex);
             }
         } while (cmd != 0);
     }
@@ -102,8 +92,8 @@ public class MenuController {
             Weapon selected = p.getWeapon(index);
             p.equipWeapon(selected);
         }
-        catch (ItemNotFoundException e) {
-            throw new ItemException("Could not equip the item (" + e.getMessage() + ")", e);
+        catch (ItemNotFoundException ex) {
+            throw new ItemException("Could not equip the item (" + ex.getMessage() + ")", ex);
         }
     }
 
@@ -133,8 +123,8 @@ public class MenuController {
             Armour selected = p.getArmour(index);
             p.equipArmour(selected);
         }
-        catch (ItemNotFoundException e) {
-            throw new ItemException("Could not equip the item (" + e.getMessage() + ")", e);
+        catch (ItemNotFoundException ex) {
+            throw new ItemException("Could not equip the item (" + ex.getMessage() + ")", ex);
         }
     }
 }
