@@ -2,7 +2,6 @@ package krados.oose.assignment.view;
 
 import krados.oose.assignment.controller.exceptions.InputErrorException;
 import krados.oose.assignment.controller.exceptions.ItemException;
-import krados.oose.assignment.controller.exceptions.ItemNotFoundException;
 import krados.oose.assignment.model.*;
 
 import java.util.InputMismatchException;
@@ -39,7 +38,7 @@ public class View {
             System.out.println("+ " + gold + " gold");
         }
         else if (gold < 0) {
-            System.out.println("- " + gold + " gold");
+            System.out.println("- " + (-gold) + " gold");
         }
     }
 
@@ -58,7 +57,7 @@ public class View {
     }
 
     //PRIVATE METHODS
-    private static String listInventory(Player p) { //Generic listing of player equipped items and inventory
+    private static String listInventory(Player p) { //Lower detail listing of player equipped items and inventory
         String list = "";
         Weapon eqW = p.getEquippedWeapon();
         Armour eqA = p.getEquippedArmour();
@@ -66,16 +65,15 @@ public class View {
         int jj = 1;
 
         //Showing two equipped items first with emphasis
-        list += "@ " + jj + ". " + eqW;
+        list += "@ " + jj + ". " + eqW.toStringShortened();
         jj++;
 
-        list += "@ " + jj + ". " + eqA;
+        list += "@ " + jj + ". " + eqA.toStringShortened();
         jj++;
 
-        //Showing the rest of the inventory
+        //Showing the rest of the player inventory
         for (ShopItem i : inventory) {
-            list += "  " + jj + ". " + i.toString();
-            list += "     " + i.getSellValue();
+            list += "  " + jj + ". " + i.toStringShortened();
             jj++;
         }
         return list;

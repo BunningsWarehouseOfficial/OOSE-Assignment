@@ -5,10 +5,10 @@ import krados.oose.assignment.model.*;
 import java.util.LinkedList;
 
 public class ShopView {
-    public static void displayOptions(LinkedList<ShopItem> shopInventory) {
+    public static void displayOptions(LinkedList<ShopItem> shopInventory, int[] costs) {
         System.out.println(
             "========== SHOP ========== \n" +
-            listShopStock(shopInventory) + " \n" +
+            listShopStock(shopInventory, costs) + " \n" +
             "[1] Sell Item \n" +
             "[2] Buy Item \n" +
             "[3] Enchant Weapon \n" +
@@ -28,13 +28,36 @@ public class ShopView {
     }
 
     //PRIVATE METHODS
-    private static String listShopStock(LinkedList<ShopItem> items) { //Listing items that the shop has for sale
+    private static String listShopStock(LinkedList<ShopItem> items, int[] costs) {
         String list = "";
         int jj = 1;
 
+        //Showing items in the shop inventory
         for (ShopItem i : items) {
-            list += jj + ". " + i.toString();
+            list += jj + ". " + i;
             list += "   {$} " + i.getCost() + " gold \n";
+            jj++;
+        }
+
+        //Showing available enchantments
+        if (costs.length > 0) { //If there are none for sale, avoiding having a list with an empty header
+            jj = 1;
+            list += "\nEnchantments: \n";
+
+            list += jj + ". " + "Damage +2 (Adds 2 to attack damage) \n";
+            list += "   {$} " + costs[jj - 1] + " gold \n";
+            jj++;
+
+            list += jj + ". " + "Damage +5 (Adds 5 to attack damage) \n";
+            list += "   {$} " + costs[jj - 1] + " gold \n";
+            jj++;
+
+            list += jj + ". " + "Fire Damage (Adds between 5 - 10 to attack damage) \n";
+            list += "   {$} " + costs[jj - 1] + " gold \n";
+            jj++;
+
+            list += jj + ". " + "Power-Up (Multiplies attack damage by 1.1) \n";
+            list += "   {$} " + costs[jj - 1] + " gold \n";
             jj++;
         }
         return list;
@@ -54,9 +77,9 @@ public class ShopView {
         list += "@ " + jj + ". " + eqA;
         jj++;
 
-        //Showing the rest of the inventory
+        //Showing the rest of the player inventory
         for (ShopItem i : inventory) {
-            list += "  " + jj + ". " + i.toString();
+            list += "  " + jj + ". " + i;
             list += "     " + i.getSellValue();
             jj++;
         }

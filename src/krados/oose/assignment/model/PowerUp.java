@@ -1,24 +1,31 @@
 package krados.oose.assignment.model;
 
 public class PowerUp extends Enchantment {
-    public static double POWER_UP = 1.1;
+    public static int COST = 10;
+    public static double MULTIPLIER = 1.1;
 
-    public PowerUp(Enchantable next) {
-        super("Power-Up", 10);
-        this.next = next;
+    //CONSTRUCTOR
+    public PowerUp(Weapon next) {
+        super(next);
     }
 
+    //ACCESSORS
+    @Override
+    public int getCost() {
+        return next.getCost() + COST;
+    }
     @Override
     public double getMinDamage() {
-        return next.getMinDamage() * POWER_UP;
+        return next.getMinDamage() * MULTIPLIER;
     }
     @Override
     public double getMaxDamage() {
-        return next.getMaxDamage() * POWER_UP;
+        return next.getMaxDamage() * MULTIPLIER;
     }
 
+    //OTHER
     @Override
     public double attack() {
-        return next.attack() * POWER_UP;
+        return next.attack() * MULTIPLIER;
     }
 }

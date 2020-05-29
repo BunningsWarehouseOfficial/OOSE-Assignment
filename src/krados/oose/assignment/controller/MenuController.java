@@ -81,26 +81,24 @@ public class MenuController {
     }
 
     private static void chooseWeapon(Player p, int cmd) throws ItemException, InputErrorException {
-        int index;
         int numWeapons = p.getNumWeapons();
-        int numArmours = p.getNumArmours();
 
         //Retrieve a weapon from player inventory using the item number as shown in UI
         try {
             if (cmd < 1) {
                 throw new InputErrorException("Input must be > 0");
             }
-            else if (cmd == 1) {
+            else if (cmd == 1) { //Checking if user chose equipped weapon
                 throw new InputErrorException("Item " + cmd + " is already equipped");
             }
-            else if (cmd == 2 || (cmd > numWeapons + 2 && cmd <= numWeapons + numArmours + 2)) {
+            else if (cmd == 2 || (cmd > numWeapons + 2 && cmd <= p.getNumItems())) { //Checking if user chose non-weapon
                 throw new InputErrorException("Item " + cmd + " is not a weapon");
             }
             else if (cmd > Player.INVENTORY_SIZE) {
                 throw new InputErrorException("Player only has an inventory of size " + Player.INVENTORY_SIZE);
             }
 
-            index = cmd - 3; //Must account for 2 equipped items being shown first, as first weapon, 3, has index 0
+            int index = cmd - 3; //Must account for 2 equipped items being shown first, as first weapon, 3, has index 0
             Weapon selected = p.getWeapon(index);
             p.equipWeapon(selected);
         }
@@ -110,25 +108,28 @@ public class MenuController {
     }
 
     private static void chooseArmour(Player p, int cmd) throws ItemException, InputErrorException {
-        int index;
         int numWeapons = p.getNumWeapons();
+        int numArmours = p.getNumArmours();
 
         //Retrieve armour from player inventory using the item number as shown in UI
         try {
             if (cmd < 1) {
                 throw new InputErrorException("Input must be > 0");
             }
-            else if (cmd == 2) {
+            else if (cmd == 2) { //Checking if user chose equipped armour
                 throw new InputErrorException("Item " + cmd + " is already equipped");
             }
-            else if (cmd == 1 || (cmd > 2 && cmd <= numWeapons + 2)) {
+            else if (cmd == 1 || cmd <= numWeapons + 2) { //Checking if user chose a weapon
+                throw new InputErrorException("Item " + cmd + " is not armour");
+            }
+            else if (cmd > numWeapons + numArmours + 2 && cmd <= p.getNumItems()) { //Checking if user chose a potion
                 throw new InputErrorException("Item " + cmd + " is not armour");
             }
             else if (cmd > Player.INVENTORY_SIZE) {
                 throw new InputErrorException("Player only has an inventory of size " + Player.INVENTORY_SIZE);
             }
 
-            index = cmd - 3 - numWeapons; //Must account for 2 equipped items and all the weapons being shown first
+            int index = cmd - 3 - numWeapons; //Must account for 2 equipped items and all the weapons being shown first
             Armour selected = p.getArmour(index);
             p.equipArmour(selected);
         }

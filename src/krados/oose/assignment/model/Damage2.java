@@ -1,11 +1,18 @@
 package krados.oose.assignment.model;
 
 public class Damage2 extends Enchantment {
-    public Damage2(Enchantable next) {
-        super("Damage +2", 5);
-        this.next = next;
+    public static int COST = 5;
+
+    //CONSTRUCTOR
+    public Damage2(Weapon next) {
+        super(next);
     }
 
+    //ACCESSORS
+    @Override
+    public int getCost() {
+        return next.getCost() + COST;
+    }
     @Override
     public double getMinDamage() {
         return next.getMinDamage() + 2.0;
@@ -15,6 +22,7 @@ public class Damage2 extends Enchantment {
         return next.getMaxDamage() + 2.0;
     }
 
+    //OTHER
     @Override
     public double attack() {
         return next.attack() + 2.0;

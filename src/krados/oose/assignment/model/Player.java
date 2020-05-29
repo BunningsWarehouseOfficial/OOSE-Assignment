@@ -59,8 +59,7 @@ public class Player extends Entity {
     }
     public Weapon getWeapon(int index) throws ItemNotFoundException {
         try {
-            Weapon w = invWeapons.get(index);
-            return w;
+            return invWeapons.get(index);
         }
         catch (IndexOutOfBoundsException e) {
             throw new ItemNotFoundException("Item could not be found be found in player inventory");
@@ -68,8 +67,7 @@ public class Player extends Entity {
     }
     public Armour getArmour(int index) throws ItemNotFoundException {
         try {
-            Armour a = invArmours.get(index);
-            return a;
+            return invArmours.get(index);
         }
         catch (IndexOutOfBoundsException e) {
             throw new ItemNotFoundException("Item could not be found be found in player inventory");
@@ -91,6 +89,9 @@ public class Player extends Entity {
     //MUTATORS
     public void setName(String name) {
         this.name = name;
+    }
+    public void setGold(int gold) {
+        this.gold = gold;
     }
 
     public void addWeapon(Weapon weapon) throws FullInventoryException {
@@ -120,13 +121,25 @@ public class Player extends Entity {
             throw new FullInventoryException("The player inventory is full");
         }
     }
+    public void removeWeapon(Weapon weapon) throws ItemNotFoundException {
+        if (invWeapons.contains(weapon)) {
+            invWeapons.remove(weapon);
+        }
+        else {
+            throw new ItemNotFoundException("Player does not have the specified weapon");
+        }
+    }
 
     public void equipWeapon(Weapon weapon) throws ItemNotFoundException {
-        if (invWeapons.contains(weapon)) {
+        if (invWeapons.contains(weapon)) { //Occurs when switching weapons
             if (this.weapon != null) { //If there is a weapon currently equipped, re-add it to the inventory list
                 invWeapons.addFirst(this.weapon);
             }
             invWeapons.remove(weapon); //The equipped weapon is not stored in the inventory list
+            this.weapon = weapon;
+        }
+        else if (this.weapon != null && weapon.getNumEnchantments() > this.weapon.getNumEnchantments()) {
+            //Occurs when re-equipping a newly enchanted weapon
             this.weapon = weapon;
         }
         else if (numItems < 2) { //Occurs at game start, where player is automatically assigned their first weapon
@@ -138,7 +151,7 @@ public class Player extends Entity {
         }
     }
     public void equipArmour(Armour armour) throws ItemNotFoundException {
-        if (invArmours.contains(armour)) {
+        if (invArmours.contains(armour)) { //Occurs when switching weapons
             if (this.armour != null) { //If there is armour currently equipped, re-add it to the inventory list
                 invArmours.addFirst(this.armour);
             }
@@ -165,14 +178,14 @@ public class Player extends Entity {
             invWeapons.remove(adjustedIndex);
         }
         else {
-            adjustedIndex -= invArmours.size();
+            adjustedIndex -= invWeapons.size();
             if (adjustedIndex < invArmours.size()) {
                 item = invArmours.get(adjustedIndex);
                 value = sell(item);
                 invArmours.remove(adjustedIndex);
             }
             else {
-                adjustedIndex -= invPotions.size();
+                adjustedIndex -= invArmours.size();
                 if (adjustedIndex < invPotions.size()) {
                     item = invPotions.get(adjustedIndex);
                     value = sell(item);
@@ -190,12 +203,12 @@ public class Player extends Entity {
     @Override
     public double attack() {
 
-        return 0.0;
+        return 0.0; //TODO attack()
     }
     @Override
     public double defend(double inDamage) {
 
-        return 0;
+        return 0; //TODO defend()
     }
 
     //PRIVATE

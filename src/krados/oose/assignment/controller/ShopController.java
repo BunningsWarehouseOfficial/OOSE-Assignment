@@ -4,23 +4,33 @@ import krados.oose.assignment.controller.exceptions.FullInventoryException;
 import krados.oose.assignment.controller.exceptions.InputErrorException;
 import krados.oose.assignment.controller.exceptions.ItemException;
 import krados.oose.assignment.controller.exceptions.ItemNotFoundException;
-import krados.oose.assignment.model.Enemy;
-import krados.oose.assignment.model.Player;
-import krados.oose.assignment.model.ShopItem;
+import krados.oose.assignment.model.*;
 import krados.oose.assignment.view.ShopView;
 import krados.oose.assignment.view.View;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
-public class ShopController {
+public class ShopController { //TODO final: make package-private if still an option
     private LinkedList<ShopItem> shopInventory; //TODO could this be placed elsewhere to make all controllers static?
+    private int[] enchantmentCosts;
 
     //CONSTRUCTOR
     public ShopController() {
-        shopInventory = new LinkedList<ShopItem>();
+        shopInventory = new LinkedList<>();
+
+        //TODO this isn't a great solution, would rather something hardcoded' into the object than hardcoded into
+        // a view and a controller NOT A MAP
+        //The costs of the enchantments for sale in the order they are shown in UI
+        enchantmentCosts = new int[] {
+            Damage2.COST,
+            Damage5.COST,
+            FireDamage.COST,
+            PowerUp.COST
+        };
     }
 
-    //MUTATORS //TODO shop inventory that's separate to controller?
+    //TODO shop inventory that's separate to controller?
     public void addItem(ShopItem item) {
         shopInventory.addLast(item);
     }
@@ -30,7 +40,7 @@ public class ShopController {
         do {
             try {
                 ShopView.playerAttributes(p);
-                ShopView.displayOptions(shopInventory);
+                ShopView.displayOptions(shopInventory, enchantmentCosts);
                 cmd = View.selectOption();
 
                 switch (cmd) {
@@ -47,8 +57,12 @@ public class ShopController {
                         break;
 
                     case 3: //Enchant Weapon
-                        System.out.println("Enchant Weapon");
-                        //add cost of enchantment to weapon cost
+                        View.inputNumberPrompt("enchantment", "buy");
+                        cmd = View.selectOption();
+                        View.inputNumberPrompt("weapon from your inventory", "enchant");
+                        int cmdTarget = View.selectOption();
+
+                        enchantWeapon(p, cmd, cmdTarget);
                         break;
 
                     default:
@@ -62,17 +76,16 @@ public class ShopController {
                 View.inputError(e);
                 cmd = -1; //Reset the cmd value to prevent accidental early exit from submenu
             }
-            catch (ItemException e) {
+            catch (ItemException e) { //bug got exception when enchanting non-equipped item (#3)
                 View.itemError(e);
             }
-        } while (cmd != 0);
+        } while (cmd != 0); //TODO retest all the UIs after Model rework
         return p;
     }
 
     //PRIVATE
     private void sellItem(Player p, int cmd) throws ItemException, InputErrorException {
-        try { //BUG After selling 4, could sell the now 3 by typing 4 <---------------------------- !!!!!!!!!!!!!!
-              // Also still haven't tested buying an item btw lol
+        try {
             if (cmd < 1) {
                 throw new InputErrorException("Input must be > 0");
             }
@@ -83,8 +96,8 @@ public class ShopController {
                 throw new InputErrorException("Player only has an inventory of size " + Player.INVENTORY_SIZE);
             }
 
-            //cmd is based on UI inventory list, but an index is required and sellable items start at 3
-            int value = p.sellItem(cmd - 3);
+            int index = cmd - 3; //Must account for 2 equipped items being shown first, as first item, 3, has index 0
+            int value = p.sellItem(index);
             View.balanceChange(value);
         }
         catch (ItemNotFoundException e) {
@@ -92,14 +105,85 @@ public class ShopController {
         }
     }
 
-    private void buyItem(Player p, int cmd) throws ItemException {
-        ShopItem bought = shopInventory.get(cmd);
+    private void buyItem(Player p, int cmd) throws ItemException, InputErrorException {
         try {
-            bought.givePlayer(p);
-            View.balanceChange(-bought.getCost());
+            ShopItem buying = shopInventory.get(cmd - 1);
+            int cost = buying.getCost();
+
+            if (p.getGold() >= cost) { //Check that the player has enough gold
+                buying.givePlayer(p); //Give the item to the player
+                p.setGold(p.getGold() - cost);
+                View.balanceChange(-cost);
+            }
+            else {
+                throw new ItemException("Player can not afford to purchase the item, " + (cost - p.getGold()) +
+                                        " more gold is required");
+            }
         }
         catch (FullInventoryException e) {
             throw new ItemException("There was a problem purchasing the item (" + e.getMessage() + ")", e);
+        }
+        catch (IndexOutOfBoundsException e) {
+            throw new InputErrorException("Input must be > 0 and <= " + shopInventory.size(), e);
+        }
+    }
+
+    private void enchantWeapon(Player p, int cmd, int cmdTarget) throws ItemException, InputErrorException {
+        try {
+            int numWeapons = p.getNumWeapons();
+
+            if (cmdTarget < 1) {
+                throw new InputErrorException("Second input must be > 0");
+            }
+            else if (cmdTarget == 2 || (cmdTarget > numWeapons + 2 && cmdTarget <= p.getNumItems())) { //Check if weapon
+                throw new InputErrorException("Item " + cmdTarget + " is not a weapon");
+            }
+            else if (cmdTarget > Player.INVENTORY_SIZE) {
+                throw new InputErrorException("Player only has an inventory of size " + Player.INVENTORY_SIZE);
+            }
+
+            int cost = enchantmentCosts[cmd - 1];
+            if (p.getGold() >= cost) { //Check that the player has enough gold
+                Weapon target;
+                if (cmdTarget == 1) {
+                    target = p.getEquippedWeapon();
+                }
+                else {
+                    target = p.getWeapon(cmdTarget - 3); //Need to account for 2 equipped items and need an index
+                    p.removeWeapon(target); //Removing original weapon from inventory
+                }
+
+                switch (cmd) { //Wrapping original weapon with the decoration
+                    case 1: //First listed enchantment
+                        target = new Damage2(target);
+                        break;
+                    case 2: //Second listed enchantment
+                        target = new Damage5(target);
+                        break;
+                    case 3: //Third listed enchantment
+                        target = new FireDamage(target);
+                        break;
+                    case 4: //Fourth listed enchantment
+                        target = new PowerUp(target);
+                        break;
+                }
+                if (cmdTarget == 1) {
+                    p.equipWeapon(target); //Re-equip the now decorated weapon
+                }
+                else {
+                    p.addWeapon(target); //Re-adding decorated weapon to inventory
+                }
+
+                p.setGold(p.getGold() - cost);
+                View.balanceChange(-cost);
+            }
+            else {
+                throw new ItemException("Player can not afford to purchase the item, " + (cost - p.getGold()) +
+                                        " more gold is required");
+            }
+        }
+        catch (IndexOutOfBoundsException e) {
+            throw new InputErrorException("First input must be > 0 and <= " + shopInventory.size(), e);
         }
     }
 

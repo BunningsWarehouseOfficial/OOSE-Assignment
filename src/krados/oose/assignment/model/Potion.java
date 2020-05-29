@@ -4,33 +4,30 @@ import krados.oose.assignment.controller.exceptions.FullInventoryException;
 
 import java.util.Random;
 
-public class Potion extends ShopItem {
+public class Potion implements ShopItem {
+    private String name;
+    private int cost;
     private boolean healing;
     private int minEffect;
     private int maxEffect;
 
     //CONSTRUCTOR
     public Potion(String name, int cost, boolean healing, int minEffect, int maxEffect) {
-        super(name, cost);
+        this.name = name;
+        this.cost = cost;
         this.healing = healing;
         this.minEffect = minEffect;
         this.maxEffect = maxEffect;
     }
 
     //ACCESSORS
-    public boolean isHealing() {
-        return healing;
+    @Override
+    public int getCost() {
+        return cost;
     }
-    public int getMinEffect() {
-        return minEffect;
-    }
-    public int getMaxEffect() {
-        return maxEffect;
-    }
-
     @Override
     public String toString() {
-        String s = getName() + " (" + minEffect + " - " + maxEffect;
+        String s = name + " (" + minEffect + " - " + maxEffect;
         if (healing) {
             s += " healing) \n";
         }
@@ -38,6 +35,12 @@ public class Potion extends ShopItem {
             s += " damage) \n";
         }
         return s;
+    }
+    @Override
+    public String toStringShortened() { return toString(); } //Potion has no extra details, thus no shortened version
+    @Override
+    public String getSellValue() {
+        return "{$} " + cost / 2 + " gold \n";
     }
 
     //OTHER

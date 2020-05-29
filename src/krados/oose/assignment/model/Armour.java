@@ -4,36 +4,38 @@ import krados.oose.assignment.controller.exceptions.FullInventoryException;
 
 import java.util.Random;
 
-public class Armour extends ShopItem {
+public class Armour implements ShopItem {
+    private String name;
+    private int cost;
     private String material;
     private int minDefence;
     private int maxDefence;
 
     //CONSTRUCTOR
     public Armour(String name, int cost, String material, int minDefence, int maxDefence) {
-        super(name, cost);
+        this.name = name;
+        this.cost = cost;
         this.material = material;
         this.minDefence = minDefence;
         this.maxDefence = maxDefence;
     }
 
     //ACCESSORS
-    public String getMaterial() {
-        return material;
+    @Override
+    public int getCost() {
+        return cost;
     }
-    public int getMinDefence() {
-        return minDefence;
-    }
-    public int getMaxDefence() {
-        return maxDefence;
-    }
-
     @Override
     public String toString() {
-        return getName() + " (" + minDefence + " - " + maxDefence + " defence) [Material: " + material + "] \n";
+        return name + " (" + minDefence + " - " + maxDefence + " defence) [Material: " + material + "] \n";
     }
+    @Override
     public String toStringShortened() {
-        return getName() + " (" + minDefence + " - " + maxDefence + " defence) \n";
+        return name + " (" + minDefence + " - " + maxDefence + " defence) \n";
+    }
+    @Override
+    public String getSellValue() {
+        return "{$} " + cost / 2 + " gold \n";
     }
 
     //OTHER
@@ -42,7 +44,6 @@ public class Armour extends ShopItem {
         int defence = rand.nextInt(maxDefence - minDefence + 1) + minDefence;
         return Math.max(0, inDamage - defence); //TODO implement health reduction here or in controller?
     }
-
 
     @Override
     public void givePlayer(Player p) throws FullInventoryException {
