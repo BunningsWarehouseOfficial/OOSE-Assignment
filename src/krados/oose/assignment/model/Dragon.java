@@ -1,5 +1,7 @@
 package krados.oose.assignment.model;
 
+import krados.oose.assignment.controller.Controller;
+
 public class Dragon extends Enemy {
     //CONSTRUCTOR
     public Dragon() {
@@ -18,12 +20,12 @@ public class Dragon extends Enemy {
         double prob = Math.random();
         if (prob < 0.25) {
             outDamage *= 2.0;
-            //TODO signal view ability was used
+            setUsedAbility("Double Damage (+ " + Controller.cleanDouble(outDamage - damage) + " damage)");
         }
         else if (prob < 0.1) {
             double newHealth = Math.max(getMaxHealth(), getHealth() + 10.0);
             setHealth(newHealth);
-            //TODO signal view ability was used
+            setUsedAbility("Recover Health (+ 10 health)");
         }
         return outDamage;
     }

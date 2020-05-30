@@ -3,10 +3,11 @@ package krados.oose.assignment.model;
 import java.util.Random;
 
 public abstract class Enemy extends Entity {
-    private int minDamage; //TODO does maxHealth and health need to be here? Seems like I don't
+    private int minDamage;
     private int maxDamage;
     private int minDefence;
     private int maxDefence;
+    private String usedAbility;
     private int reward;
 
     //CONSTRUCTOR
@@ -16,6 +17,7 @@ public abstract class Enemy extends Entity {
         this.maxDamage = maxDamage;
         this.minDefence = minDefence;
         this.maxDefence = maxDefence;
+        usedAbility = null;
         this.reward = reward;
     }
 
@@ -26,10 +28,18 @@ public abstract class Enemy extends Entity {
     public int getMaxDamage() {
         return maxDamage;
     }
+    public String getUsedAbility() {
+        return usedAbility;
+    }
     public int getReward() {
         return reward;
     }
     public abstract String getSpecies();
+
+    //MUTATORS
+    public void setUsedAbility(String usedAbility) {
+        this.usedAbility = usedAbility;
+    }
 
     //FACTORY
     public static Enemy makeEnemy(int numBattles) {
@@ -60,16 +70,17 @@ public abstract class Enemy extends Entity {
     abstract public double ability(double damage);
 
     @Override
-    public double attack() { //TODO does this even work being in abstract class? Subclass fields don't do anything
+    public double attack() {
         Random rand = new Random();
         double damage = (double)rand.nextInt(maxDamage - minDamage + 1) + minDamage;
-        damage += ability(damage);
         return damage;
     }
     @Override
     public double defend(double inDamage) {
         Random rand = new Random();
         double defence = (double)rand.nextInt(maxDefence - minDefence + 1) + minDefence;
-        return Math.max(0.0, inDamage - defence); //TODO implement health reduction here or in controller?
+        double reducedDamage = Math.max(0.0, inDamage - defence); //Calculating the reduced damage
+        setHealth(getHealth() - reducedDamage); //Lowering enemy health by the reduced damage
+        return defence; //Return the amount of damage that was defended
     }
 }

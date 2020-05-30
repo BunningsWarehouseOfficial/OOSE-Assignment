@@ -1,5 +1,8 @@
 package krados.oose.assignment.model;
 
+import krados.oose.assignment.controller.Controller;
+import krados.oose.assignment.view.View;
+
 import java.text.DecimalFormat;
 
 public abstract class Enchantment implements Weapon {
@@ -34,14 +37,17 @@ public abstract class Enchantment implements Weapon {
         double min = getMinDamage();
         double max = getMaxDamage();
 
-        if (min % 1 == 0 && max % 1 == 0) {
-            s += (int)min + " - " + (int)max; //Truncate numbers to remove unnecessary clutter
-        }
-        else {
-            DecimalFormat twoDP = new DecimalFormat("#.##");
-            s += twoDP.format(min) + " - " + twoDP.format(max); //Prevent unnecessary clutter in String //test
-        }
-        s += " " + getTypeDamage() + " damage) [Type: " + getType() + "] \n";
+        s += Controller.cleanDouble(min) + " - " + Controller.cleanDouble(max) + " " + getTypeDamage() +
+             " damage) [Type: " + getType() + "] \n"; //test, remove below after
+
+//        if (min % 1 == 0 && max % 1 == 0) {
+//            s += (int)min + " - " + (int)max; //Truncate numbers to remove unnecessary clutter
+//        }
+//        else {
+//            DecimalFormat twoDP = new DecimalFormat("#.##");
+//            s += twoDP.format(min) + " - " + twoDP.format(max); //Prevent unnecessary clutter in String
+//        }
+//        s += " " + getTypeDamage() + " damage) [Type: " + getType() + "] \n";
         return s;
     }
     @Override
@@ -50,14 +56,17 @@ public abstract class Enchantment implements Weapon {
         double min = getMinDamage();
         double max = getMaxDamage();
 
-        if (min % 1 == 0 && max % 1 == 0) { //Check if
-            s += (int)min + " - " + (int)max; //Truncate numbers to remove unnecessary clutter
-        }
-        else {
-            DecimalFormat twoDP = new DecimalFormat("#.##");
-            s += twoDP.format(min) + " - " + twoDP.format(max); //Prevent unnecessary clutter in String //test
-        }
-        s += " " + getTypeDamage() + " damage) \n";
+        s += Controller.cleanDouble(min) + " - " + Controller.cleanDouble(max) + " " + getTypeDamage() + " damage) \n";
+        //test, remove below after
+
+//        if (min % 1 == 0 && max % 1 == 0) { //Check if
+//            s += (int)min + " - " + (int)max; //Truncate numbers to remove unnecessary clutter
+//        }
+//        else {
+//            DecimalFormat twoDP = new DecimalFormat("#.##");
+//            s += twoDP.format(min) + " - " + twoDP.format(max); //Prevent unnecessary clutter in String
+//        }
+//        s += " " + getTypeDamage() + " damage) \n";
         return s;
     }
     @Override

@@ -16,8 +16,8 @@ public class GameEngine {
         // temp
         Player player = new Player(); //Default player
         try {
-            player.equipWeapon(new WeaponItem("Excalibur", 20, "Sword", "slashing", 6, 12));
-            player.equipArmour(new Armour("Astra Leggings", 30, "Adamantium", 10, 14));
+            player.equipWeapon(new WeaponItem("Excalibur", 20, "Sword", "slashing", 50, 50));
+            player.equipArmour(new Armour("Astra Leggings", 30, "Adamantium", 50, 50));
             player.addArmour(new Armour("Titanium Chestplate", 25, "Titanium", 9, 12));
             player.addWeapon(new WeaponItem("Excalibur 2", 40, "Longsword", "slashing", 9, 15));
             ShopItem pot = new Potion("Fire Potion", 10, false, 4, 6);

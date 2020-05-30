@@ -40,7 +40,21 @@ public class MenuController {
 
                     case 5: //Start Battle
                         Enemy e = Enemy.makeEnemy(numBattles);
-                        BattleController.startBattle(p, e);
+                        int goldBefore = p.getGold();
+                        boolean endGame = BattleController.startBattle(p, e);
+                        int goldAfter = p.getGold();
+
+                        if (endGame) {
+                            cmd = 0; //Exit the game
+                        }
+                        else if (p.getHealth() <= 0.0 || goldAfter != goldBefore + e.getReward()) { //Lose || Win Game
+                            /*If health is <= 0.0, the player lost and if the player's gold doesn't increase, then they
+                              won the game as defeating the dragon does not increase player's gold*/
+                            numBattles = 0; //Reset the number of battles had when restarting game
+                        }
+                        else {
+                            numBattles++;
+                        }
                         break;
 
                     default:

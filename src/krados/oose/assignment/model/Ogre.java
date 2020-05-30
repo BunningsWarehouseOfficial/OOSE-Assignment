@@ -1,5 +1,7 @@
 package krados.oose.assignment.model;
 
+import krados.oose.assignment.controller.Controller;
+
 import java.util.Random;
 
 public class Ogre extends Enemy {
@@ -22,7 +24,7 @@ public class Ogre extends Enemy {
         if (Math.random() < 0.2) {
             Random rand = new Random();
             outDamage += (double)rand.nextInt(getMaxDamage() - getMinDamage() + 1) + getMinDamage();
-            //TODO signal view ability was used
+            setUsedAbility("Attack Twice (+ " + Controller.cleanDouble(outDamage - damage) + " damage)");
         }
         return outDamage;
     }

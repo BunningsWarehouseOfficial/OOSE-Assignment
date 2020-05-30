@@ -19,7 +19,7 @@ public class Goblin extends Enemy {
         double outDamage = damage;
         if (Math.random() < 0.5) {
             outDamage += 3.0;
-            //TODO signal view ability was used
+            setUsedAbility("Extra Damage (+ 3 damage)");
         }
         return outDamage;
     }

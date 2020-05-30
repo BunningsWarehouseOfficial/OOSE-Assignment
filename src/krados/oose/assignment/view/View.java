@@ -1,9 +1,11 @@
 package krados.oose.assignment.view;
 
+import krados.oose.assignment.controller.Controller;
 import krados.oose.assignment.controller.exceptions.InputErrorException;
 import krados.oose.assignment.controller.exceptions.ItemException;
 import krados.oose.assignment.model.*;
 
+import java.text.DecimalFormat;
 import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -12,7 +14,7 @@ public class View {
     public static void playerAttributes(Player p) { //Generic listing of player stats and inventory
         System.out.println("\n\n\n" +
             "========= PLAYER ========= \n" +
-            p.getName() + " (" + p.getHealth() + " / " + p.getMaxHealth() + " health) \n" +
+            p.getName() + " (" + Controller.cleanDouble(p.getHealth()) + " / " + p.getMaxHealth() + " health) \n" +
             p.getGold() + " gold \n" +
             "Inventory: (" + p.getNumItems() + " / " + Player.INVENTORY_SIZE + " items) \n" +
             listInventory(p)

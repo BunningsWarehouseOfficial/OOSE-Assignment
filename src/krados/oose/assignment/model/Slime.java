@@ -1,5 +1,7 @@
 package krados.oose.assignment.model;
 
+import krados.oose.assignment.controller.Controller;
+
 public class Slime extends Enemy {
     public static double INITIAL_PROB = 0.5;
 
@@ -20,7 +22,7 @@ public class Slime extends Enemy {
         double outDamage = damage;
         if (Math.random() < 0.2) {
             outDamage = 0.0;
-            //TODO signal view ability was used
+            setUsedAbility("Miss Attack (- " + (Controller.cleanDouble(damage)) + " damage)");
         }
         return outDamage;
     }

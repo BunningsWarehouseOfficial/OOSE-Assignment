@@ -39,10 +39,10 @@ public class Armour implements ShopItem {
     }
 
     //OTHER
-    public int defend(int inDamage) { //TODO does this even work being in abstract? Subclass fields don't do anything
+    public double defend(double inDamage) {
         Random rand = new Random();
-        int defence = rand.nextInt(maxDefence - minDefence + 1) + minDefence;
-        return Math.max(0, inDamage - defence); //TODO implement health reduction here or in controller?
+        double defence = rand.nextInt(maxDefence - minDefence + 1) + minDefence;
+        return Math.max(0.0, inDamage - defence); //Calculating the reduced damage
     }
 
     @Override

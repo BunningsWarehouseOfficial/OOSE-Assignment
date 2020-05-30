@@ -1,5 +1,6 @@
 package krados.oose.assignment.view;
 
+import krados.oose.assignment.controller.Controller;
 import krados.oose.assignment.model.*;
 
 import java.util.LinkedList;
@@ -20,7 +21,7 @@ public class ShopView {
     public static void playerAttributes(Player p) { //Shop-specific listing of player attributes
         System.out.println("\n\n\n" +
                 "========= PLAYER ========= \n" +
-                p.getName() + " (" + p.getHealth() + " / " + p.getMaxHealth() + " health) \n" +
+                p.getName() + " (" + Controller.cleanDouble(p.getHealth()) + " / " + p.getMaxHealth() + " health) \n" +
                 p.getGold() + " gold \n" +
                 "Inventory: (" + p.getNumItems() + " / " + Player.INVENTORY_SIZE + " items) \n" +
                 listShoppingInventory(p)

@@ -6,7 +6,10 @@ import krados.oose.assignment.controller.exceptions.ItemNotFoundException;
 import java.util.LinkedList;
 
 public class Player extends Entity {
+    public static final int DEFAULT_MAX_HEALTH = 30;
+    public static final int DEFAULT_STARTING_GOLD = 100;
     public static final int INVENTORY_SIZE = 15;
+
     private String name;
     private LinkedList<Weapon> invWeapons;
     private LinkedList<Armour> invArmours;
@@ -18,27 +21,27 @@ public class Player extends Entity {
 
     //CONSTRUCTORS
     public Player() { //Default Constructor
-        super(30);
+        super(DEFAULT_MAX_HEALTH);
         this.name = "X Æ A-12";
         invWeapons = new LinkedList<>();
         invArmours = new LinkedList<>();
         invPotions = new LinkedList<>();
         weapon = null; //TODO assign initial weapon and armour in factory
         armour = null;
-        gold = 100;
+        gold = DEFAULT_STARTING_GOLD;
         numItems = 0;
     }
-    public Player(int maxHealth, String name, int startingGold) { //Alternate Constructor
-        super(maxHealth);
-        this.name = name;
-        invWeapons = new LinkedList<>();
-        invArmours = new LinkedList<>();
-        invPotions = new LinkedList<>();
-        weapon = null; //TODO assign initial weapon and armour in factory
-        armour = null;
-        gold = startingGold;
-        numItems = 0;
-    }
+//    public Player(int maxHealth, String name, int startingGold) { //Alternate Constructor
+//        super(maxHealth);
+//        this.name = name;
+//        invWeapons = new LinkedList<>();
+//        invArmours = new LinkedList<>();
+//        invPotions = new LinkedList<>();
+//        weapon = null; //TODO assign initial weapon and armour in factory
+//        armour = null;
+//        gold = startingGold;
+//        numItems = 0;
+//    }
 
     //ACCESSORS
     public String getName() {
@@ -62,7 +65,7 @@ public class Player extends Entity {
             return invWeapons.get(index);
         }
         catch (IndexOutOfBoundsException ex) {
-            throw new ItemNotFoundException("Item could not be found be found in player inventory");
+            throw new ItemNotFoundException("Item could not be found in player inventory");
         }
     }
     public Armour getArmour(int index) throws ItemNotFoundException {
@@ -70,7 +73,15 @@ public class Player extends Entity {
             return invArmours.get(index);
         }
         catch (IndexOutOfBoundsException ex) {
-            throw new ItemNotFoundException("Item could not be found be found in player inventory");
+            throw new ItemNotFoundException("Item could not be found in player inventory");
+        }
+    }
+    public Potion getPotion(int index) throws ItemNotFoundException {
+        try {
+            return invPotions.get(index);
+        }
+        catch (IndexOutOfBoundsException ex) {
+            throw new ItemNotFoundException("Item could not be found in player inventory");
         }
     }
     public int getGold() {
@@ -127,6 +138,14 @@ public class Player extends Entity {
         }
         else {
             throw new ItemNotFoundException("Player does not have the specified weapon");
+        }
+    }
+    public void removePotion(Potion potion) throws ItemNotFoundException {
+        if (invPotions.contains(potion)) {
+            invPotions.remove(potion);
+        }
+        else {
+            throw new ItemNotFoundException("Player does not have the specified potion");
         }
     }
 
@@ -202,13 +221,13 @@ public class Player extends Entity {
     //OTHER
     @Override
     public double attack() {
-
-        return 0.0; //TODO attack()
+        return weapon.attack();
     }
     @Override
     public double defend(double inDamage) {
-
-        return 0; //TODO defend()
+        double reducedDamage = armour.defend(inDamage);
+        setHealth(getHealth() - reducedDamage); //Lowering player health by the reduced damage
+        return inDamage - reducedDamage; //Return the amount of damage that was defended
     }
 
     //PRIVATE
