@@ -3,9 +3,8 @@ package krados.oose.assignment.model;
 import krados.oose.assignment.controller.Controller;
 
 public class Slime extends Enemy {
-    public static double INITIAL_PROB = 0.5;
+    public static final double INITIAL_PROB = 0.5;
 
-    //TODO perhaps modify these constructors to not be hardcoded and take in values in a factory?
     //CONSTRUCTOR
     public Slime() {
         super(10, 3, 5, 0, 2, 10);

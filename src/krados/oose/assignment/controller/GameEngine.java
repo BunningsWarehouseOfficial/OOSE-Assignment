@@ -1,48 +1,63 @@
 package krados.oose.assignment.controller;
 
-import krados.oose.assignment.controller.exceptions.FullInventoryException;
 import krados.oose.assignment.controller.exceptions.ItemNotFoundException;
+import krados.oose.assignment.controller.exceptions.UpdaterException;
 import krados.oose.assignment.model.*;
+import krados.oose.assignment.view.View;
+
+import java.util.LinkedList;
 
 public class GameEngine {
     public static void main(String[] args) {
-        //TODO just stuff everything into here for now and 'methodise' later
-        //TODO consider changing various methods from public to protected/package-private LOW PRIORITY
-        //TODO don't forget to test inventory/ui stuff with potions, as I didn't create any potions in initial testing
-
-        //TODO final: remove unused anythings where applicable
+        //TODO final: put comments everywhere
         //TODO final: make another git branch and remove all left over TODOs on there only for the assignment submission
 
-        // temp
         Player player = new Player(); //Default player
+        ShopController shop = new ShopController();
+        ShopUpdater updater = new FileShopUpdater();
         try {
-            player.equipWeapon(new WeaponItem("Excalibur", 20, "Sword", "slashing", 50, 50));
-            player.equipArmour(new Armour("Astra Leggings", 30, "Adamantium", 50, 50));
-            player.addArmour(new Armour("Titanium Chestplate", 25, "Titanium", 9, 12));
-            player.addWeapon(new WeaponItem("Excalibur 2", 40, "Longsword", "slashing", 9, 15));
-            ShopItem pot = new Potion("Fire Potion", 10, false, 4, 6);
-            pot.givePlayer(player);
+            //Updating the shop inventory with the initial items (in this case, from a text input file)
+            LinkedList<ShopItem> shopInventory = updater.update();
+            shop.setInventory(updater.update());
+
+            equipCheapestItems(player, shopInventory);
+            MenuController.menu(player, shop);
+        }
+        catch (UpdaterException ex) {
+            View.updaterError(ex);
         }
         catch (ItemNotFoundException ex) {
-            System.out.println("Error: " + ex.getMessage());
+            View.itemError(ex);
         }
-        catch (FullInventoryException ex) {
-            System.out.println("Error: " + ex.getMessage() + " - max inventory size is " + Player.INVENTORY_SIZE);
-        }
-        // end temp
-        ShopController shop = new ShopController();
-        shop.addItem(new WeaponItem("Yeetblade", 15, "Blade", "stabbing", 2, 12));
-        shop.addItem(new Armour("Cactus Pants", 5, "Cactus", 0, 8));
-        shop.addItem(new Potion("Gamer Juice", 10, true, 12, 16));
-
-        MenuController.menu(player, shop);
     }
 
-    private void injectDependencies() { //TODO could just be in main() ?
+    public static void equipCheapestItems(Player player, LinkedList<ShopItem> inventory) throws ItemNotFoundException {
+        //Finding and equipping the cheapest weapon
+        Weapon cheapestWeapon = null;
+        for (ShopItem item : inventory) { //Searching for the cheapest weapon
+            if (item instanceof Weapon) {
+                if (cheapestWeapon == null) { //Finding the first candidate
+                    cheapestWeapon = (Weapon)item;
+                }
+                else if (item.getCost() < cheapestWeapon.getCost()) { //Finding consecutive cheaper candidates
+                    cheapestWeapon = (Weapon)item;
+                }
+            }
+        }
+        player.equipWeapon(cheapestWeapon);
 
-    }
-
-    private void centralFactory() { //TODO could just be in main() ?
-
+        //Finding and equipping the cheapest armour
+        Armour cheapestArmour = null;
+        for (ShopItem item : inventory) { //Searching for the cheapest armour
+            if (item instanceof Armour) {
+                if (cheapestArmour == null) { //Finding the first candidate
+                    cheapestArmour = (Armour)item;
+                }
+                else if (item.getCost() < cheapestArmour.getCost()) { //Finding consecutive cheaper candidates
+                    cheapestArmour = (Armour)item;
+                }
+            }
+        }
+        player.equipArmour(cheapestArmour);
     }
 }

@@ -69,7 +69,7 @@ public class WeaponItem implements Weapon {
 
     //OTHER
     @Override
-    public double attack() { //TODO does this even work being in abstract class? Subclass fields don't do anything
+    public double attack() {
         Random rand = new Random();
         return rand.nextInt(maxDamage - minDamage + 1) + minDamage;
     }

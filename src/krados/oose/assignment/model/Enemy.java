@@ -21,29 +21,9 @@ public abstract class Enemy extends Entity {
         this.reward = reward;
     }
 
-    //ACCESSORS
-    public int getMinDamage() {
-        return minDamage;
-    }
-    public int getMaxDamage() {
-        return maxDamage;
-    }
-    public String getUsedAbility() {
-        return usedAbility;
-    }
-    public int getReward() {
-        return reward;
-    }
-    public abstract String getSpecies();
-
-    //MUTATORS
-    public void setUsedAbility(String usedAbility) {
-        this.usedAbility = usedAbility;
-    }
-
     //FACTORY
     public static Enemy makeEnemy(int numBattles) {
-        double pSlime, pGoblin, pOgre, pDragon, prob, modifier, cumulative;
+        double pSlime, pGoblin, pOgre, prob, modifier;
         Enemy enemy;
         prob = Math.random();
 
@@ -67,13 +47,32 @@ public abstract class Enemy extends Entity {
         return enemy;
     }
 
+    //ACCESSORS
+    public int getMinDamage() {
+        return minDamage;
+    }
+    public int getMaxDamage() {
+        return maxDamage;
+    }
+    public String getUsedAbility() {
+        return usedAbility;
+    }
+    public int getReward() {
+        return reward;
+    }
+    public abstract String getSpecies();
+
+    //MUTATORS
+    public void setUsedAbility(String usedAbility) {
+        this.usedAbility = usedAbility;
+    }
+
     abstract public double ability(double damage);
 
     @Override
     public double attack() {
         Random rand = new Random();
-        double damage = (double)rand.nextInt(maxDamage - minDamage + 1) + minDamage;
-        return damage;
+        return (double)rand.nextInt(maxDamage - minDamage + 1) + minDamage;
     }
     @Override
     public double defend(double inDamage) {

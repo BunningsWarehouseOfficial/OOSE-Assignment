@@ -5,7 +5,7 @@ import krados.oose.assignment.controller.Controller;
 import java.util.Random;
 
 public class Ogre extends Enemy {
-    public static double INITIAL_PROB = 0.2;
+    public static final double INITIAL_PROB = 0.2;
 
     //CONSTRUCTOR
     public Ogre() {

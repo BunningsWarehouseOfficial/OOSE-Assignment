@@ -5,6 +5,6 @@ public class ItemException extends Exception {
         super(message);
     }
     public ItemException(String message, Throwable cause) {
-        super(message);
+        super(message, cause);
     }
 }

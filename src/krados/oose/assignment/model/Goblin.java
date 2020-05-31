@@ -1,7 +1,7 @@
 package krados.oose.assignment.model;
 
 public class Goblin extends Enemy {
-    public static double INITIAL_PROB = 0.3;
+    public static final double INITIAL_PROB = 0.3;
 
     //CONSTRUCTOR
     public Goblin() {

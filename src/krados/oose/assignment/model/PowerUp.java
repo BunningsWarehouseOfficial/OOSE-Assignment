@@ -1,8 +1,8 @@
 package krados.oose.assignment.model;
 
 public class PowerUp extends Enchantment {
-    public static int COST = 10;
-    public static double MULTIPLIER = 1.1;
+    public static final int COST = 10;
+    public static final double MULTIPLIER = 1.1;
 
     //CONSTRUCTOR
     public PowerUp(Weapon next) {

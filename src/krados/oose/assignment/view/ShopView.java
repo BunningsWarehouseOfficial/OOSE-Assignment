@@ -5,6 +5,7 @@ import krados.oose.assignment.model.*;
 
 import java.util.LinkedList;
 
+@SuppressWarnings("StringConcatenationInLoop")
 public class ShopView {
     public static void displayOptions(LinkedList<ShopItem> shopInventory, int[] costs) {
         System.out.println(
@@ -17,7 +18,6 @@ public class ShopView {
         );
     }
 
-    //FIXME the exact same as View version but with different method call at end
     public static void playerAttributes(Player p) { //Shop-specific listing of player attributes
         System.out.println("\n\n\n" +
                 "========= PLAYER ========= \n" +

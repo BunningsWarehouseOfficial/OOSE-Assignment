@@ -165,9 +165,9 @@ public class BattleController {
                 cmd = View.selectOption();
 
                 if (cmd == 1) { //Play Again
-                    p.setHealth(p.getMaxHealth());
-                    p.setGold(Player.DEFAULT_STARTING_GOLD);
-                    //todo need to use factory to get default inventory, currently here previous inventory is kept
+                    String name = p.getName();
+                    p.reset(); //Resetting the player
+                    p.setName(name); //Carrying over the old name
 
                     endGame = false;
                     cmd = 0;
@@ -201,9 +201,9 @@ public class BattleController {
                     cmd = View.selectOption();
 
                     if (cmd == 1) { //Play Again
-                        p.setHealth(p.getMaxHealth());
-                        p.setGold(Player.DEFAULT_STARTING_GOLD);
-                        //todo need to use factory to get default inventory, currently here previous inventory is kept
+                        String name = p.getName();
+                        p.reset(); //Resetting the player
+                        p.setName(name); //Carrying over the old name
 
                         endGame = false;
                         cmd = 0;

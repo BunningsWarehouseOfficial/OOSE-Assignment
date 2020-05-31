@@ -3,9 +3,9 @@ package krados.oose.assignment.model;
 import java.util.Random;
 
 public class FireDamage extends Enchantment {
-    public static int COST = 20;
-    public static int MIN_EXTRA = 5;
-    public static int MAX_EXTRA = 10;
+    public static final int COST = 20;
+    public static final int MIN_EXTRA = 5;
+    public static final int MAX_EXTRA = 10;
 
     //CONSTRUCTOR
     public FireDamage(Weapon next) {

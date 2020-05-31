@@ -6,8 +6,9 @@ import krados.oose.assignment.controller.exceptions.ItemNotFoundException;
 import java.util.LinkedList;
 
 public class Player extends Entity {
-    public static final int DEFAULT_MAX_HEALTH = 30;
-    public static final int DEFAULT_STARTING_GOLD = 100;
+    private static final int DEFAULT_MAX_HEALTH = 30;
+    private static final String DEFAULT_NAME = "X Æ A-12";
+    private static final int DEFAULT_STARTING_GOLD = 100;
     public static final int INVENTORY_SIZE = 15;
 
     private String name;
@@ -22,26 +23,15 @@ public class Player extends Entity {
     //CONSTRUCTORS
     public Player() { //Default Constructor
         super(DEFAULT_MAX_HEALTH);
-        this.name = "X Æ A-12";
+        this.name = DEFAULT_NAME;
         invWeapons = new LinkedList<>();
         invArmours = new LinkedList<>();
         invPotions = new LinkedList<>();
-        weapon = null; //TODO assign initial weapon and armour in factory
+        weapon = null;
         armour = null;
         gold = DEFAULT_STARTING_GOLD;
         numItems = 0;
     }
-//    public Player(int maxHealth, String name, int startingGold) { //Alternate Constructor
-//        super(maxHealth);
-//        this.name = name;
-//        invWeapons = new LinkedList<>();
-//        invArmours = new LinkedList<>();
-//        invPotions = new LinkedList<>();
-//        weapon = null; //TODO assign initial weapon and armour in factory
-//        armour = null;
-//        gold = startingGold;
-//        numItems = 0;
-//    }
 
     //ACCESSORS
     public String getName() {
@@ -189,7 +179,7 @@ public class Player extends Entity {
     public int sellItem(int index) throws ItemNotFoundException {
         ShopItem item;
         int adjustedIndex = index; //Index relative to the inventory container being searched at each step
-        int value = 0;
+        int value;
 
         if (adjustedIndex < invWeapons.size() && index >= 0) {
             item = invWeapons.get(adjustedIndex);
@@ -216,6 +206,18 @@ public class Player extends Entity {
             }
         }
         return value;
+    }
+
+    public void reset() { //Reset a player's stats and inventory, but leave the name unchanged
+        setHealth(getMaxHealth());
+        this.name = DEFAULT_NAME;
+        invWeapons = new LinkedList<>();
+        invArmours = new LinkedList<>();
+        invPotions = new LinkedList<>();
+        weapon = null;
+        armour = null;
+        gold = DEFAULT_STARTING_GOLD;
+        numItems = 0;
     }
 
     //OTHER

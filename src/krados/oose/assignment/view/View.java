@@ -3,9 +3,9 @@ package krados.oose.assignment.view;
 import krados.oose.assignment.controller.Controller;
 import krados.oose.assignment.controller.exceptions.InputErrorException;
 import krados.oose.assignment.controller.exceptions.ItemException;
+import krados.oose.assignment.controller.exceptions.UpdaterException;
 import krados.oose.assignment.model.*;
 
-import java.text.DecimalFormat;
 import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -19,6 +19,10 @@ public class View {
             "Inventory: (" + p.getNumItems() + " / " + Player.INVENTORY_SIZE + " items) \n" +
             listInventory(p)
         );
+    }
+
+    public static void inputNumberPrompt(String itemType, String action) {
+        System.out.println("Input the number of the " + itemType + " you would like to " + action);
     }
 
     public static int selectOption() throws InputErrorException {
@@ -44,18 +48,17 @@ public class View {
         }
     }
 
-    public static void inputNumberPrompt(String itemType, String action) {
-        System.out.println("Input the number of the " + itemType + " you would like to " + action);
-    }
-
     public static void inputBoundsError(int lower, int upper) {
         System.out.println("Input Error: Input is out of bounds, must be >= " + lower + " and <= " + upper);
     }
-    public static void inputError(InputErrorException e) {
-        System.out.println("Input Error: " + e.getMessage());
+    public static void updaterError(UpdaterException ex) {
+        System.out.println("Shop Updater Error: " + ex.getMessage());
     }
-    public static void itemError(ItemException e) {
-        System.out.println("Item Error: " + e.getMessage());
+    public static void inputError(InputErrorException ex) {
+        System.out.println("Input Error: " + ex.getMessage());
+    }
+    public static void itemError(ItemException ex) {
+        System.out.println("Item Error: " + ex.getMessage());
     }
 
     //PRIVATE METHODS

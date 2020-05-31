@@ -7,8 +7,8 @@ import krados.oose.assignment.view.View;
 
 import java.util.LinkedList;
 
-public class ShopController { //TODO final: make package-private if still an option
-    private LinkedList<ShopItem> shopInventory; //TODO could this be placed elsewhere to make all controllers static?
+public class ShopController {
+    private LinkedList<ShopItem> shopInventory;
     private int[] enchantmentCosts;
 
     //CONSTRUCTOR
@@ -24,11 +24,25 @@ public class ShopController { //TODO final: make package-private if still an opt
         };
     }
 
-    //TODO shop inventory that's separate to controller?
+    //ACCESSORS
+    public LinkedList<ShopItem> getShopInventory() {
+        return shopInventory;
+    }
+
+    //MUTATORS
     public void addItem(ShopItem item) {
         shopInventory.addLast(item);
     }
+  /*Overwrites the current inventory with a new inventory*/
+    public void setInventory(LinkedList<ShopItem> shopInventory) {
+        this.shopInventory = shopInventory;
+    }
+  /*Appends a new inventory to the end of the current inventory*/
+    public void appendInventory(LinkedList<ShopItem> shopInventory) {
+        this.shopInventory.addAll(shopInventory);
+    }
 
+    //OTHER
     public Player openShop(Player p) {
         int cmd = -1;
         do {
@@ -70,10 +84,10 @@ public class ShopController { //TODO final: make package-private if still an opt
                 View.inputError(ex);
                 cmd = -1; //Reset the cmd value to prevent accidental early exit from submenu
             }
-            catch (ItemException ex) { //bug got exception when enchanting non-equipped item (#3)
+            catch (ItemException ex) {
                 View.itemError(ex);
             }
-        } while (cmd != 0); //TODO retest all the UIs after Model rework
+        } while (cmd != 0);
         return p;
     }
 
@@ -183,7 +197,4 @@ public class ShopController { //TODO final: make package-private if still an opt
             throw new InputErrorException("First input must be > 0 and <= " + shopInventory.size(), ex);
         }
     }
-
-    //private Updater updater; //TODO implement shop updating
-    //TODO check values are != when loading from file or even somewhere higher up
 }

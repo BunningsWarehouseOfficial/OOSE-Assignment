@@ -1,9 +1,6 @@
 package krados.oose.assignment.model;
 
 import krados.oose.assignment.controller.Controller;
-import krados.oose.assignment.view.View;
-
-import java.text.DecimalFormat;
 
 public abstract class Enchantment implements Weapon {
     protected Weapon next;
@@ -38,16 +35,7 @@ public abstract class Enchantment implements Weapon {
         double max = getMaxDamage();
 
         s += Controller.cleanDouble(min) + " - " + Controller.cleanDouble(max) + " " + getTypeDamage() +
-             " damage) [Type: " + getType() + "] \n"; //test, remove below after
-
-//        if (min % 1 == 0 && max % 1 == 0) {
-//            s += (int)min + " - " + (int)max; //Truncate numbers to remove unnecessary clutter
-//        }
-//        else {
-//            DecimalFormat twoDP = new DecimalFormat("#.##");
-//            s += twoDP.format(min) + " - " + twoDP.format(max); //Prevent unnecessary clutter in String
-//        }
-//        s += " " + getTypeDamage() + " damage) [Type: " + getType() + "] \n";
+             " damage) [Type: " + getType() + "] \n";
         return s;
     }
     @Override
@@ -57,16 +45,6 @@ public abstract class Enchantment implements Weapon {
         double max = getMaxDamage();
 
         s += Controller.cleanDouble(min) + " - " + Controller.cleanDouble(max) + " " + getTypeDamage() + " damage) \n";
-        //test, remove below after
-
-//        if (min % 1 == 0 && max % 1 == 0) { //Check if
-//            s += (int)min + " - " + (int)max; //Truncate numbers to remove unnecessary clutter
-//        }
-//        else {
-//            DecimalFormat twoDP = new DecimalFormat("#.##");
-//            s += twoDP.format(min) + " - " + twoDP.format(max); //Prevent unnecessary clutter in String
-//        }
-//        s += " " + getTypeDamage() + " damage) \n";
         return s;
     }
     @Override
@@ -81,9 +59,8 @@ public abstract class Enchantment implements Weapon {
     }
     @Override
     public void givePlayer(Player p) {
-      /*Given the current design and implementation of the program the method does not make sense, as enchantments are
-      * added to weapons, not */
-      //TODO write explanatory comment (if I keep it)
+      /*Given the current design and implementation of the program this method does not make sense, as enchantments are
+        added to weapons, not the player. However, a future modification may require adding enchantments to inventory*/
         throw new UnsupportedOperationException("Enchantment.givePlayer(Player) has no implementation");
     }
 }

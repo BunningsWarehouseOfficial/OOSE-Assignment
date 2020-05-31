@@ -48,8 +48,11 @@ public class MenuController {
                             cmd = 0; //Exit the game
                         }
                         else if (p.getHealth() <= 0.0 || goldAfter != goldBefore + e.getReward()) { //Lose || Win Game
-                            /*If health is <= 0.0, the player lost and if the player's gold doesn't increase, then they
-                              won the game as defeating the dragon does not increase player's gold*/
+                          /*If health is <= 0.0, the player lost; if the player's gold doesn't increase then they
+                            have won the game, as defeating the dragon does not increase the player's gold*/
+
+                            //Re-equip the player with the cheapest weapon and armour from the shop
+                            GameEngine.equipCheapestItems(p, shop.getShopInventory());
                             numBattles = 0; //Reset the number of battles had when restarting game
                         }
                         else {
@@ -77,8 +80,8 @@ public class MenuController {
     //PRIVATE METHODS
     private static void changeName(Player p) throws InputErrorException {
         String name = MenuView.changeName();
-        if (name.replaceAll("\\s","").length() < 1) {
-            throw new InputErrorException("Player name must contain at least 1 non-space character");
+        if (name.replaceAll("\\s","").length() < 2) { //Number of non-space characters must be >= 2
+            throw new InputErrorException("Player name must contain at least 2 non-space characters");
         }
         name = name.trim(); //Trim leading and trailing whitespace to keep a clean UI
         p.setName(name);

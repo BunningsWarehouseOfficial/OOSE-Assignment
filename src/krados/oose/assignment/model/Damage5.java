@@ -1,7 +1,7 @@
 package krados.oose.assignment.model;
 
 public class Damage5 extends Enchantment {
-    public static int COST = 10;
+    public static final int COST = 10;
 
     //CONSTRUCTOR
     public Damage5(Weapon next) {
