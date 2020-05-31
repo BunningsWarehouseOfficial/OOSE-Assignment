@@ -10,8 +10,6 @@ import java.util.LinkedList;
 public class GameEngine {
   /*Where the program is started and where the player, shop and shop updater are initialised*/
     public static void main(String[] args) {
-        //TODO final: put comments everywhere
-
         Player player = new Player(); //Default player
         ShopController shop = new ShopController();
         ShopUpdater updater = new FileShopUpdater();
