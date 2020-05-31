@@ -33,10 +33,12 @@ public class ShopController {
     public void addItem(ShopItem item) {
         shopInventory.addLast(item);
     }
+
   /*Overwrites the current inventory with a new inventory*/
     public void setInventory(LinkedList<ShopItem> shopInventory) {
         this.shopInventory = shopInventory;
     }
+
   /*Appends a new inventory to the end of the current inventory*/
     public void appendInventory(LinkedList<ShopItem> shopInventory) {
         this.shopInventory.addAll(shopInventory);

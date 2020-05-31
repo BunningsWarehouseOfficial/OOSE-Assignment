@@ -10,6 +10,8 @@ import krados.oose.assignment.view.BattleView;
 import krados.oose.assignment.view.View;
 
 public class BattleController {
+  /*Start and continue a battle until either the enemy is defeated or the player has lost, informing the calling
+    class upon completion whether or not to continue the game further*/
     public static boolean startBattle(Player player, Enemy enemy) {
 
         String playerName = player.getName();
@@ -62,6 +64,7 @@ public class BattleController {
     }
 
     //PRIVATE
+  /*The player plays their turn by either choosing to attack directly or use a potion*/
     private static double playerTurn(Player p, String enemySpecies) {
         double attackDamage = 0;
         int cmd;
@@ -102,6 +105,7 @@ public class BattleController {
         return attackDamage;
     }
 
+  /*The enemy plays their turn by attacking and applying any activated abilities*/
     private static double enemyTurn(Enemy e, String playerName) {
         double attackDamage = e.attack(); //Get standard attack
         BattleView.enemyTurn();
@@ -116,6 +120,8 @@ public class BattleController {
         return attackDamage;
     }
 
+  /*The player must pick out a potion from their inventory and, given that it is a valid selection, it must be
+    determined whether it is a healing or damage potion with the appropriate actions then taken*/
     private static double usePotion(Player p, int cmd) throws ItemException, InputErrorException {
         double attackDamage = 0; //If the potion is healing, no damage will be sent to the enemy
         int numWeapons = p.getNumWeapons();
@@ -155,6 +161,7 @@ public class BattleController {
         return attackDamage;
     }
 
+  /*The player has lost the game and if they decide to play again, the player must be reset to its starting state*/
     private static boolean playerLoss(Player p) {
         int cmd;
         boolean endGame = true;
@@ -186,6 +193,9 @@ public class BattleController {
         return endGame;
     }
 
+  /*Rewarding the player for a victorious battle by either providing them with a gold reward and increased health or by
+    informing them that they have won the game. If they decide to play again, the player must be reset to its
+    starting state*/
     private static boolean playerWin(Player p, int reward, String enemySpecies) {
         boolean endGame = true;
         double newHealth = Math.min(p.getMaxHealth(), p.getHealth() * 1.5);

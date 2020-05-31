@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 import java.util.LinkedList;
 
 public class FileShopUpdater implements ShopUpdater {
-    public static final String UPDATE_FILE = "resources/ShopInput1.txt";
+    public static final String UPDATE_FILE = "ShopInput1.txt";
     public static final int INPUT_LIMIT = 10000;
 
     public LinkedList<ShopItem> update() throws UpdaterException {

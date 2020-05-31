@@ -67,6 +67,7 @@ public abstract class Enemy extends Entity {
         this.usedAbility = usedAbility;
     }
 
+    //OTHER
     abstract public double ability(double damage);
 
     @Override

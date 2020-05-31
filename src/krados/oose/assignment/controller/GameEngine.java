@@ -8,9 +8,9 @@ import krados.oose.assignment.view.View;
 import java.util.LinkedList;
 
 public class GameEngine {
+  /*Where the program is started and where the player, shop and shop updater are initialised*/
     public static void main(String[] args) {
         //TODO final: put comments everywhere
-        //TODO final: make another git branch and remove all left over TODOs on there only for the assignment submission
 
         Player player = new Player(); //Default player
         ShopController shop = new ShopController();
@@ -31,6 +31,7 @@ public class GameEngine {
         }
     }
 
+  /*The player is equipped with the cheapest weapon and armour that can be found in the provided inventory*/
     public static void equipCheapestItems(Player player, LinkedList<ShopItem> inventory) throws ItemNotFoundException {
         //Finding and equipping the cheapest weapon
         Weapon cheapestWeapon = null;

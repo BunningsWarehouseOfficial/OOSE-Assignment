@@ -5,7 +5,6 @@ import krados.oose.assignment.model.*;
 
 import java.util.LinkedList;
 
-@SuppressWarnings("StringConcatenationInLoop")
 public class ShopView {
     public static void displayOptions(LinkedList<ShopItem> shopInventory, int[] costs) {
         System.out.println(
